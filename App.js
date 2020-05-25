@@ -1,35 +1,10 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-} from "react-native";
+import { StyleSheet } from "react-native";
+import { useDeviceOrientation } from "@react-native-community/hooks";
+import WelcomeScreen from "./app/screens/WelcomeScreen";
+import ViewImageScreen from "./app/screens/ViewImageScreen";
 
 export default function App() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <Text>Hello React Native</Text>
-      <TouchableOpacity onPress={() => console.log("Image Tapped")}>
-        <Image
-          source={{
-            width: 200,
-            height: 300,
-            uri: "https://picsum.photos/200/300",
-          }}
-        />
-      </TouchableOpacity>
-    </SafeAreaView>
-  );
+  return <ViewImageScreen />;
+  // <WelcomeScreen />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
