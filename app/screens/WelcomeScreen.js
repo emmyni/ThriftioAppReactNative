@@ -1,7 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  Image,
+  Button,
+} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({ navigation }) => {
   return (
     <ImageBackground
       style={styles.background}
@@ -11,7 +20,12 @@ const WelcomeScreen = () => {
         <Image style={styles.logo} source={require("../assets/logo-red.png")} />
         <Text>Sell What You Don't Need</Text>
       </View>
-      <View style={styles.loginButton}></View>
+      <View style={styles.loginButton}>
+        <Button
+          title="Go to Details"
+          onPress={() => navigation.navigate("ViewImageScreen")}
+        />
+      </View>
       <View style={styles.registerButton}></View>
     </ImageBackground>
   );
