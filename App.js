@@ -12,6 +12,7 @@ import ViewImageScreen from "./app/screens/ViewImageScreen";
 import LoginScreen from "./app/screens/LoginScreen";
 import SignupScreen from "./app/screens/SignupScreen";
 import FeedScreen from "./app/screens/FeedScreen";
+import ListingInfoScreen from "./app/screens/ListingInfoScreen";
 import ProfileScreen from "./app/screens/ProfileScreen";
 import MyListingsScreen from "./app/screens/Profile/ListingsScreen";
 import MessagesScreen from "./app/screens/Profile/MessagesScreen";
@@ -33,48 +34,21 @@ export default function App() {
           },
           headerTitle: appDetails.title,
           headerBackTitle: "Back",
+          headerShown: false,
         }}
       >
-        <Stack.Screen
-          name="WelcomeScreen"
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
         <Stack.Screen name="ViewImageScreen" component={ViewImageScreen} />
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="SignupScreen"
-          component={SignupScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="FeedScreen"
-          component={FeedScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ProfileScreen"
-          component={ProfileScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MyListingsScreen"
-          component={MyListingsScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MessagesScreen"
-          component={MessagesScreen}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        <Stack.Screen name="FeedScreen" component={FeedScreen} />
+        <Stack.Screen name="ListingInfoScreen" component={ListingInfoScreen} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Stack.Screen name="MyListingsScreen" component={MyListingsScreen} />
+        <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
         <Stack.Screen
           name="SavedListingsScreen"
           component={SavedListingsScreen}
-          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

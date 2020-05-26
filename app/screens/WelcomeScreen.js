@@ -7,12 +7,9 @@ import {
   Image,
   Button,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import colors from "../config/colors";
-import { color } from "react-native-reanimated";
 
 const WelcomeScreen = ({ navigation }) => {
   return (
@@ -25,7 +22,6 @@ const WelcomeScreen = ({ navigation }) => {
         <Text>Sell What You Don't Need</Text>
       </View>
       <View style={styles.buttonContainer}>
-        {/* <View> */}
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => navigation.navigate("LoginScreen")}
@@ -38,11 +34,10 @@ const WelcomeScreen = ({ navigation }) => {
         >
           <Text style={styles.text}>Sign Up</Text>
         </TouchableOpacity>
-        {/* </View> */}
       </View>
       <Button
         title="Continue as Guest"
-        onPress={() => navigation.navigate("ProfileScreen")}
+        onPress={() => navigation.navigate("FeedScreen")}
       />
     </ImageBackground>
   );

@@ -1,14 +1,25 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+import { Container, Content } from "native-base";
+import SearchBar from "./SearchBar";
+import TagsList from "./components/TagsList";
 
-const Feed = () => {
+import Listing from "./Listing";
+
+const FeedScreen = ({ navigation }) => {
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <Container>
+      <SearchBar />
+      <Content padder>
+        <TagsList />
+        <Listing navigation={navigation} />
+        <Listing navigation={navigation} />
+        <Listing navigation={navigation} />
+      </Content>
+    </Container>
   );
 };
 
-export default Feed;
+export default FeedScreen;
 
 const styles = StyleSheet.create({});
