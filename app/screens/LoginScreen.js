@@ -3,9 +3,6 @@ import { StyleSheet, Image, Text, View, Dimensions } from "react-native";
 import {
   Container,
   Content,
-  Grid,
-  Col,
-  Row,
   Form,
   Icon,
   Item,
@@ -16,7 +13,7 @@ import {
 
 import colors from "../config/colors";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -47,6 +44,13 @@ const LoginScreen = () => {
               <Text>Login</Text>
             </Button>
           </View>
+          <Text>Don't have an account?</Text>
+          <Button
+            transparent
+            onPress={() => navigation.navigate("SignupScreen")}
+          >
+            <Text>Sign Up</Text>
+          </Button>
         </View>
       </Content>
     </Container>
