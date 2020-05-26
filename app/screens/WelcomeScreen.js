@@ -42,7 +42,7 @@ const WelcomeScreen = ({ navigation }) => {
       </View>
       <Button
         title="Continue as Guest"
-        onPress={() => navigation.navigate("ViewImageScreen")}
+        onPress={() => navigation.navigate("ProfileScreen")}
       />
     </ImageBackground>
   );

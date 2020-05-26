@@ -11,7 +11,7 @@ import {
   Button,
 } from "native-base";
 
-import BackgroundGradient from "./common/backgroundGradient";
+import BackgroundGradient from "./common/BackgroundGradient";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
