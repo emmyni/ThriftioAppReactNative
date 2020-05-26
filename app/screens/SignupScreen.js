@@ -11,7 +11,7 @@ import {
   Button,
 } from "native-base";
 
-import colors from "../config/colors";
+import BackgroundGradient from "./common/backgroundGradient";
 
 const SignupScreen = () => {
   const [username, setUsername] = useState("");
@@ -21,6 +21,7 @@ const SignupScreen = () => {
 
   return (
     <Container style={styles.background}>
+      <BackgroundGradient />
       <Content>
         <View style={styles.container}>
           <View style={styles.logoContainer}>
@@ -52,9 +53,11 @@ const SignupScreen = () => {
                 <Input onChangeText={(text) => setPassword2(text)} />
               </Item>
             </Form>
-            <Button block light>
-              <Text>Sign Up</Text>
-            </Button>
+            <View style={styles.button}>
+              <Button block light>
+                <Text>Sign Up</Text>
+              </Button>
+            </View>
           </View>
         </View>
       </Content>
@@ -65,9 +68,9 @@ const SignupScreen = () => {
 const { height, width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    backgroundColor: colors.primary,
+  button: {
+    paddingVertical: 30,
+    paddingHorizontal: 5,
   },
   container: {
     flex: 1,

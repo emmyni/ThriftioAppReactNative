@@ -11,14 +11,15 @@ import {
   Button,
 } from "native-base";
 
-import colors from "../config/colors";
+import BackgroundGradient from "./common/backgroundGradient";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   return (
-    <Container style={styles.background}>
+    <Container>
+      <BackgroundGradient />
       <Content>
         <View style={styles.container}>
           <View style={styles.logoContainer}>
@@ -40,17 +41,24 @@ const LoginScreen = ({ navigation }) => {
                 <Input onChangeText={(text) => setPassword(text)} />
               </Item>
             </Form>
-            <Button block light>
-              <Text>Login</Text>
+            <View style={styles.button}>
+              <Button block light>
+                <Text>Login</Text>
+              </Button>
+            </View>
+          </View>
+          <View style={styles.signupButton}>
+            <Button transparent>
+              <Text>Don't have an account? </Text>
+            </Button>
+            <Button
+              transparent
+              light
+              onPress={() => navigation.navigate("SignupScreen")}
+            >
+              <Text>Sign Up</Text>
             </Button>
           </View>
-          <Text>Don't have an account?</Text>
-          <Button
-            transparent
-            onPress={() => navigation.navigate("SignupScreen")}
-          >
-            <Text>Sign Up</Text>
-          </Button>
         </View>
       </Content>
     </Container>
@@ -60,9 +68,9 @@ const LoginScreen = ({ navigation }) => {
 const { height, width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    backgroundColor: colors.primary,
+  button: {
+    paddingVertical: 30,
+    paddingHorizontal: 5,
   },
   container: {
     flex: 1,
@@ -76,6 +84,10 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignSelf: "center",
+  },
+  signupButton: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });
 
