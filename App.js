@@ -1,6 +1,5 @@
 import "react-native-gesture-handler";
 import React from "react";
-import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
 import { useDeviceOrientation } from "@react-native-community/hooks";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -37,8 +36,16 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="ViewImageScreen" component={ViewImageScreen} />
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignupScreen"
+          component={SignupScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
