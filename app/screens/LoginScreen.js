@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, Text, View } from "react-native";
+import { StyleSheet, Image, Text, View, Dimensions } from "react-native";
 import {
   Container,
   Content,
+  Grid,
+  Col,
+  Row,
   Form,
   Icon,
   Item,
@@ -18,53 +21,57 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
 
   return (
-    <Container>
+    <Container style={styles.background}>
       <Content>
-        <Form>
-          <Item floatingLabel>
-            <Icon active name="person" />
-            <Label>Username</Label>
-            <Input />
-          </Item>
-          <Item floatingLabel>
-            <Icon active name="lock" />
-            <Label>Password</Label>
-            <Input />
-          </Item>
-        </Form>
+        <View style={styles.container}>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              source={require("../assets/logo-red.png")}
+            />
+          </View>
+          <View>
+            <Form>
+              <Item floatingLabel>
+                <Icon active name="person" />
+                <Label>Username</Label>
+                <Input onChangeText={(text) => setUsername(text)} />
+              </Item>
+              <Item floatingLabel last>
+                <Icon active name="lock" />
+                <Label>Password</Label>
+                <Input onChangeText={(text) => setPassword(text)} />
+              </Item>
+            </Form>
+            <Button block light>
+              <Text>Login</Text>
+            </Button>
+          </View>
+        </View>
       </Content>
     </Container>
   );
 };
 
+const { height, width } = Dimensions.get("screen");
+
 const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: colors.primary,
-    justifyContent: "center",
   },
   container: {
-    backgroundColor: colors.white,
-    justifyContent: "space-around",
-    paddingHorizontal: "10%",
-    flex: 0.25,
+    flex: 1,
+    height: height,
+    width: width,
+    justifyContent: "center",
   },
-  passwordTextInput: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 6,
+  logo: {
+    width: 100,
+    height: 100,
   },
-  textInputContainer: {},
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  usernameTextInput: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 6,
+  logoContainer: {
+    alignSelf: "center",
   },
 });
 
