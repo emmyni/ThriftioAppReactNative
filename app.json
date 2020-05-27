@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Thrify",
-    "slug": "Thrify",
+    "name": "Thriftio",
+    "slug": "Thriftio",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "default",

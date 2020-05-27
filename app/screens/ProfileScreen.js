@@ -9,7 +9,9 @@ import {
   Text,
   Icon,
   Right,
+  Button,
 } from "native-base";
+import firebase from "firebase";
 
 import NavigationMenu from "./common/NavigationMenu";
 
@@ -58,6 +60,13 @@ const ProfileScreen = ({ navigation }) => {
             <Right>
               <Icon name="arrow-forward" />
             </Right>
+          </CardItem>
+        </Card>
+        <Card>
+          <CardItem>
+            <Button onPress={() => firebase.auth().signOut()}>
+              <Text>Sign out</Text>
+            </Button>
           </CardItem>
         </Card>
       </Content>

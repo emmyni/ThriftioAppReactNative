@@ -3,6 +3,8 @@ import React from "react";
 import { useDeviceOrientation } from "@react-native-community/hooks";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import firebase from "firebase";
+import { firebaseConfig } from "./firebaseConfig";
 
 import colors from "./app/config/colors";
 import appDetails from "./app/config/appDetails";
@@ -18,6 +20,8 @@ import ProfileScreen from "./app/screens/ProfileScreen";
 import MyListingsScreen from "./app/screens/Profile/ListingsScreen";
 import MessagesScreen from "./app/screens/Profile/MessagesScreen";
 import SavedListingsScreen from "./app/screens/Profile/SavedListingsScreen";
+
+firebase.initializeApp(firebaseConfig);
 
 const Stack = createStackNavigator();
 

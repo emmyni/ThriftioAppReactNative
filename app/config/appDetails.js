@@ -1,5 +1,5 @@
 export default {
-  title: "Thrify",
+  title: "Thriftio",
   description: "A place to buy and sell your stuff",
   category: [
     { index: 1, name: "Clothes", image: "" },
