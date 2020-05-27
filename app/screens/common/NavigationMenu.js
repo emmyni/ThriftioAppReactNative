@@ -17,7 +17,7 @@ const NavigationMenu = ({ navigation }) => {
           style={styles.addButton}
           onPress={() => navigation.navigate("AddListingScreen")}
         >
-          <Icon active name="add" />
+          <Icon style={styles.addIcon} active name="add" />
         </Button>
         <Button vertical onPress={() => navigation.navigate("ProfileScreen")}>
           <Icon style={styles.sideButtons} name="person" />
@@ -44,6 +44,9 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     backgroundColor: colors.primary,
     justifyContent: "center",
+  },
+  addIcon: {
+    color: colors.white,
   },
   sideButtons: {
     color: colors.primary,

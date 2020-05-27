@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import {
   Container,
   Content,
@@ -7,10 +7,7 @@ import {
   CardItem,
   Thumbnail,
   Text,
-  Button,
   Icon,
-  Left,
-  Body,
   Right,
 } from "native-base";
 
@@ -20,32 +17,15 @@ const ProfileScreen = ({ navigation }) => {
   return (
     <Container>
       <Content padder>
-        <Card>
-          <CardItem style={{ justifyContent: "center" }}>
+        <Card style={styles.card}>
+          <CardItem>
             <Thumbnail source={require("../assets/logo-red.png")} />
           </CardItem>
-          <CardItem cardBody style={{ justifyContent: "center" }}>
+          <CardItem>
             <View>
               <Text>@Emmy</Text>
               <Text note>Hi, I'm Emmy</Text>
             </View>
-          </CardItem>
-          <CardItem>
-            <Left>
-              <Button transparent>
-                <Icon active name="thumbs-up" />
-                <Text>12 Likes</Text>
-              </Button>
-            </Left>
-            <Body>
-              <Button transparent>
-                <Icon active name="chatbubbles" />
-                <Text>4 Comments</Text>
-              </Button>
-            </Body>
-            <Right>
-              <Text>11h ago</Text>
-            </Right>
           </CardItem>
         </Card>
         <Card>
@@ -88,4 +68,11 @@ const ProfileScreen = ({ navigation }) => {
 
 export default ProfileScreen;
 
-const styles = StyleSheet.create({});
+const { height } = Dimensions.get("screen");
+const styles = StyleSheet.create({
+  card: {
+    height: height * 0.4,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

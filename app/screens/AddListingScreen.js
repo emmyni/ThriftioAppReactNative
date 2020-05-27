@@ -25,10 +25,13 @@ import {
   Right,
 } from "native-base";
 
+import colors from "../config/colors";
+
 const AddListing = () => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
+  const [location, setLocation] = useState("");
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -67,15 +70,21 @@ const AddListing = () => {
         <View style={styles.container}>
           <View>
             <Card
-              style={{ flexDirection: "row", justifyContent: "space-around" }}
+              transparent
+              style={{
+                flexDirection: "row",
+                justifyContent:
+                  images.length < 2 ? "flex-start" : "space-around",
+              }}
             >
               {images.length < 3 && (
                 <CardItem>
                   <Button
+                    bordered
                     onPress={_pickImage}
-                    style={{ width: 100, height: 100 }}
+                    style={styles.addButton}
                   >
-                    <Icon active name="archive" />
+                    <Icon active name="add" style={styles.addIcon} />
                   </Button>
                 </CardItem>
               )}
@@ -83,10 +92,7 @@ const AddListing = () => {
               {images.map((photo, index) => {
                 return (
                   <CardItem key={index}>
-                    <Image
-                      source={{ uri: photo }}
-                      style={{ width: 100, height: 100 }}
-                    />
+                    <Image source={{ uri: photo }} style={styles.image} />
                   </CardItem>
                 );
               })}
@@ -95,27 +101,32 @@ const AddListing = () => {
           <View>
             <Form>
               <Item floatingLabel>
-                <Icon active name="archive" />
+                <Icon active name="archive" style={styles.icon} />
                 <Label>Item</Label>
                 <Input onChangeText={(text) => setItem(text)} />
               </Item>
               <Item floatingLabel last>
-                <Icon active name="logo-usd" />
+                <Icon active name="logo-usd" style={styles.icon} />
                 <Label>Price</Label>
                 <Input onChangeText={(text) => setPrice(text)} />
               </Item>
               <Item floatingLabel last>
-                <Icon active name="information-circle" />
+                <Icon active name="information-circle" style={styles.icon} />
                 <Label>Description</Label>
                 <Input
                   multiline={true}
                   onChangeText={(text) => setDesc(text)}
                 />
               </Item>
+              <Item floatingLabel last>
+                <Icon active name="map" style={styles.icon} />
+                <Label>Location</Label>
+                <Input onChangeText={(text) => setLocation(text)} />
+              </Item>
             </Form>
-            <View style={styles.button}>
-              <Button block light>
-                <Text>Submit</Text>
+            <View style={styles.submitContainer}>
+              <Button block>
+                <Text style={styles.submitText}>Submit</Text>
               </Button>
             </View>
           </View>
@@ -130,14 +141,34 @@ export default AddListing;
 const { height, width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
-  button: {
-    paddingVertical: 30,
-    paddingHorizontal: 5,
+  addButton: {
+    width: 100,
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    color: colors.primary,
+  },
+  addIcon: {
+    fontSize: 40,
   },
   container: {
     flex: 1,
     height: height,
     width: width,
     justifyContent: "center",
+  },
+  icon: {
+    color: colors.primary,
+  },
+  image: {
+    width: 100,
+    height: 100,
+  },
+  submitContainer: {
+    paddingVertical: 30,
+    paddingHorizontal: 5,
+  },
+  submitText: {
+    color: colors.white,
   },
 });
