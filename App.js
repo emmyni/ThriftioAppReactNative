@@ -13,6 +13,7 @@ import LoginScreen from "./app/screens/LoginScreen";
 import SignupScreen from "./app/screens/SignupScreen";
 import FeedScreen from "./app/screens/FeedScreen";
 import ListingInfoScreen from "./app/screens/ListingInfoScreen";
+import AddListingScreen from "./app/screens/AddListingScreen";
 import ProfileScreen from "./app/screens/ProfileScreen";
 import MyListingsScreen from "./app/screens/Profile/ListingsScreen";
 import MessagesScreen from "./app/screens/Profile/MessagesScreen";
@@ -43,6 +44,7 @@ export default function App() {
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
         <Stack.Screen name="FeedScreen" component={FeedScreen} />
         <Stack.Screen name="ListingInfoScreen" component={ListingInfoScreen} />
+        <Stack.Screen name="AddListingScreen" component={AddListingScreen} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen name="MyListingsScreen" component={MyListingsScreen} />
         <Stack.Screen name="MessagesScreen" component={MessagesScreen} />

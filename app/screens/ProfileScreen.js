@@ -14,6 +14,8 @@ import {
   Right,
 } from "native-base";
 
+import NavigationMenu from "./common/NavigationMenu";
+
 const ProfileScreen = ({ navigation }) => {
   return (
     <Container>
@@ -79,6 +81,7 @@ const ProfileScreen = ({ navigation }) => {
           </CardItem>
         </Card>
       </Content>
+      <NavigationMenu navigation={navigation} />
     </Container>
   );
 };

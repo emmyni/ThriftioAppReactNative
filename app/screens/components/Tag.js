@@ -20,6 +20,9 @@ Tag.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container: { alignItems: "center" },
+  container: {
+    alignItems: "center",
+    padding: 5,
+  },
   text: { paddingTop: 5 },
 });

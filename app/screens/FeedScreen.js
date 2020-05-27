@@ -4,7 +4,8 @@ import { Container, Content } from "native-base";
 import SearchBar from "./SearchBar";
 import TagsList from "./components/TagsList";
 
-import Listing from "./Listing";
+import Listing from "./components/Listing";
+import NavigationMenu from "./common/NavigationMenu";
 
 const FeedScreen = ({ navigation }) => {
   return (
@@ -16,6 +17,7 @@ const FeedScreen = ({ navigation }) => {
         <Listing navigation={navigation} />
         <Listing navigation={navigation} />
       </Content>
+      <NavigationMenu navigation={navigation} />
     </Container>
   );
 };

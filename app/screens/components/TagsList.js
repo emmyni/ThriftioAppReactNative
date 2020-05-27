@@ -3,22 +3,18 @@ import { StyleSheet, Text, View } from "react-native";
 import Tag from "./Tag";
 
 import appDetails from "../../config/appDetails";
+import { ScrollView } from "react-native-gesture-handler";
 
 const TagsList = () => {
   return (
-    <View style={styles.tagContainer}>
+    <ScrollView horizontal={true}>
       {appDetails.category.map((tag) => {
         return <Tag name={tag.name} image={tag.image} key={tag.index} />;
       })}
-    </View>
+    </ScrollView>
   );
 };
 
 export default TagsList;
 
-const styles = StyleSheet.create({
-  tagContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-});
+const styles = StyleSheet.create({});
