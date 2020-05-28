@@ -1,10 +1,21 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Footer, FooterTab, Button, Icon, Text } from "native-base";
+import firebase from "firebase";
 
 import colors from "../../config/colors";
 
 const NavigationMenu = ({ navigation }) => {
+  const checkIfLogin = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate("ProfileScreen");
+      } else {
+        navigation.navigate("LoginScreen");
+      }
+    });
+  };
+
   return (
     <Footer>
       <FooterTab>
@@ -19,7 +30,7 @@ const NavigationMenu = ({ navigation }) => {
         >
           <Icon style={styles.addIcon} active name="add" />
         </Button>
-        <Button vertical onPress={() => navigation.navigate("ProfileScreen")}>
+        <Button vertical onPress={() => checkIfLogin()}>
           <Icon style={styles.sideButtons} name="person" />
           <Text>Profile</Text>
         </Button>

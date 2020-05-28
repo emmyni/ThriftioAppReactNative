@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 import {
   Container,
@@ -16,17 +16,27 @@ import firebase from "firebase";
 import NavigationMenu from "./common/NavigationMenu";
 
 const ProfileScreen = ({ navigation }) => {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    setUser(firebase.auth().currentUser);
+  });
+
+  const signOut = () => {};
+
   return (
     <Container>
       <Content padder>
         <Card style={styles.card}>
           <CardItem>
-            <Thumbnail source={require("../assets/logo-red.png")} />
+            <Thumbnail source={{ uri: user.photoURL }} />
           </CardItem>
           <CardItem>
             <View>
-              <Text>@Emmy</Text>
-              <Text note>Hi, I'm Emmy</Text>
+              <Text style={styles.profileText}>{user.displayName}</Text>
+              <Text style={styles.profileText} note>
+                {user.email}
+              </Text>
             </View>
           </CardItem>
         </Card>
@@ -62,9 +72,9 @@ const ProfileScreen = ({ navigation }) => {
             </Right>
           </CardItem>
         </Card>
-        <Card>
-          <CardItem>
-            <Button onPress={() => firebase.auth().signOut()}>
+        <Card transparent>
+          <CardItem style={{ justifyContent: "center" }}>
+            <Button bordered onPress={() => firebase.auth().signOut()}>
               <Text>Sign out</Text>
             </Button>
           </CardItem>
@@ -83,5 +93,8 @@ const styles = StyleSheet.create({
     height: height * 0.4,
     justifyContent: "center",
     alignItems: "center",
+  },
+  profileText: {
+    textAlign: "center",
   },
 });

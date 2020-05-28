@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Image, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Image, View, Dimensions } from "react-native";
 import {
   Container,
   Content,
@@ -9,107 +9,28 @@ import {
   Label,
   Input,
   Button,
+  Text,
 } from "native-base";
-import * as Google from "expo-google-app-auth";
 import firebase from "firebase";
 
-import { iosClientId } from "../../firebaseConfig";
 import BackgroundGradient from "./common/BackgroundGradient";
+import LoginExternal from "./LoginExternal";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  isUserEqual = (googleUser, firebaseUser) => {
-    if (firebaseUser) {
-      var providerData = firebaseUser.providerData;
-      for (var i = 0; i < providerData.length; i++) {
-        if (
-          providerData[i].providerId ===
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-          providerData[i].uid === googleUser.getBasicProfile().getId()
-        ) {
-          // We don't need to reauth the Firebase connection.
-          return true;
-        }
+  const checkIfLogin = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate("FeedScreen");
       }
-    }
-    return false;
+    });
   };
 
-  onSignIn = (googleUser) => {
-    console.log("Google Auth Response", googleUser);
-    // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-    var unsubscribe = firebase.auth().onAuthStateChanged(
-      function (firebaseUser) {
-        unsubscribe();
-        // Check if we are already signed-in Firebase with the correct user.
-        if (!isUserEqual(googleUser, firebaseUser)) {
-          // Build Firebase credential with the Google ID token.
-          var credential = firebase.auth.GoogleAuthProvider.credential(
-            googleUser.idToken,
-            googleUser.accessToken
-          );
-          // Sign in with credential from the Google user.
-          firebase
-            .auth()
-            .signInWithCredential(credential)
-            .then(function (result) {
-              if (result.additionalUserInfo.isNewUser) {
-                firebase
-                  .database()
-                  .ref("/users/" + result.user.uid)
-                  .set({
-                    email: result.user.email,
-                    profile_picture: result.additionalUserInfo.profile.picture,
-                    locale: result.additionalUserInfo.profile.locale,
-                    first_name: result.additionalUserInfo.profile.given_name,
-                    last_name: result.additionalUserInfo.profile.family_name,
-                    created_at: Date.now(),
-                  })
-                  .then(function (snapshot) {});
-              } else {
-                firebase
-                  .database()
-                  .ref("/users/" + result.user.uid)
-                  .update({ last_logged_in: Date.now() });
-              }
-            })
-            .catch(function (error) {
-              // Handle Errors here.
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              // The email of the user's account used.
-              var email = error.email;
-              // The firebase.auth.AuthCredential type that was used.
-              var credential = error.credential;
-            });
-        } else {
-          console.log("User already signed-in Firebase.");
-        }
-      }.bind(this)
-    );
-  };
-
-  signInWithGoogleAsync = async () => {
-    try {
-      const result = await Google.logInAsync({
-        // androidClientId:
-        //   "",
-        iosClientId: iosClientId,
-        scopes: ["profile", "email"],
-      });
-
-      if (result.type === "success") {
-        onSignIn(result);
-        return result.accessToken;
-      } else {
-        return { cancelled: true };
-      }
-    } catch (e) {
-      return { error: true };
-    }
-  };
+  useEffect(() => {
+    checkIfLogin();
+  });
 
   return (
     <Container>
@@ -136,23 +57,20 @@ const LoginScreen = ({ navigation }) => {
               </Item>
             </Form>
             <View style={styles.button}>
-              <Button block light onPress={() => signInWithGoogleAsync()}>
+              <Button block light>
                 <Text>Login</Text>
               </Button>
             </View>
           </View>
           <View style={styles.signupButton}>
-            <Button transparent>
-              <Text>Don't have an account? </Text>
-            </Button>
             <Button
               transparent
-              light
               onPress={() => navigation.navigate("SignupScreen")}
             >
-              <Text>Sign Up</Text>
+              <Text>Don't have an account? Sign Up</Text>
             </Button>
           </View>
+          <LoginExternal navigation={navigation} />
         </View>
       </Content>
     </Container>

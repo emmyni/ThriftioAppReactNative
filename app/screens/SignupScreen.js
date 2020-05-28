@@ -13,7 +13,7 @@ import {
 
 import BackgroundGradient from "./common/BackgroundGradient";
 
-const SignupScreen = () => {
+const SignupScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -58,6 +58,14 @@ const SignupScreen = () => {
                 <Text>Sign Up</Text>
               </Button>
             </View>
+            <View style={styles.loginButton}>
+              <Button
+                transparent
+                onPress={() => navigation.navigate("SignupScreen")}
+              >
+                <Text>Already have an account? Login</Text>
+              </Button>
+            </View>
           </View>
         </View>
       </Content>
@@ -76,6 +84,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: height,
     width: width,
+    justifyContent: "center",
+  },
+  loginButton: {
+    flexDirection: "row",
     justifyContent: "center",
   },
   logo: {

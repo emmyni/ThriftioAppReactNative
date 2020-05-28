@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,10 +8,23 @@ import {
   Button,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import firebase from "firebase";
 
 import colors from "../config/colors";
 
 const WelcomeScreen = ({ navigation }) => {
+  const checkIfLogin = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate("FeedScreen");
+      }
+    });
+  };
+
+  useEffect(() => {
+    checkIfLogin();
+  });
+
   return (
     <ImageBackground
       style={styles.background}
