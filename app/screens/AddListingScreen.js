@@ -24,6 +24,8 @@ import {
   Body,
   Right,
 } from "native-base";
+import firebase from "firebase";
+import uuid from "uuid-random";
 
 import colors from "../config/colors";
 
@@ -62,6 +64,25 @@ const AddListing = () => {
     } catch (E) {
       console.log(E);
     }
+  };
+
+  const createPost = () => {
+    let addItem = {
+      item_name: item,
+      price: price,
+      desc: desc,
+      location: location,
+      images: images,
+      user_id: firebase.auth().currentUser.uid,
+      created_at: Date.now(),
+    };
+
+    // console.log(addItem);
+
+    // firebase
+    //   .database()
+    //   .ref("/items/" + uuid())
+    //   .set(addItem);
   };
 
   return (
@@ -125,7 +146,7 @@ const AddListing = () => {
               </Item>
             </Form>
             <View style={styles.submitContainer}>
-              <Button block>
+              <Button block onPress={() => createPost()}>
                 <Text style={styles.submitText}>Submit</Text>
               </Button>
             </View>

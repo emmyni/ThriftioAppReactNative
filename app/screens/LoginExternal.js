@@ -4,7 +4,7 @@ import { Button, Text } from "native-base";
 import * as Google from "expo-google-app-auth";
 import firebase from "firebase";
 
-import { iosClientId } from "../../firebaseConfig";
+import { iosClientId, androidClientId } from "../../firebaseConfig";
 
 const LoginExternal = ({ navigation }) => {
   const isUserEqual = (googleUser, firebaseUser) => {
@@ -78,8 +78,7 @@ const LoginExternal = ({ navigation }) => {
   const signInWithGoogleAsync = async () => {
     try {
       const result = await Google.logInAsync({
-        // androidClientId:
-        //   "",
+        androidClientId: androidClientId,
         iosClientId: iosClientId,
         scopes: ["profile", "email"],
       });
@@ -96,7 +95,7 @@ const LoginExternal = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
       <Button block rounded onPress={() => signInWithGoogleAsync()}>
         <Text>Google</Text>
       </Button>

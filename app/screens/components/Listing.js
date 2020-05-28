@@ -12,7 +12,7 @@ import {
 } from "native-base";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const Listing = ({ navigation }) => {
+const Listing = ({ navigation, item }) => {
   return (
     <TouchableOpacity onPress={() => navigation.navigate("ListingInfoScreen")}>
       <Card>
@@ -25,8 +25,8 @@ const Listing = ({ navigation }) => {
         <CardItem>
           <Left>
             <Body>
-              <Text>Boots</Text>
-              <Text note>Barely used</Text>
+              <Text>{item.item_name}</Text>
+              <Text note>{item.desc}</Text>
             </Body>
           </Left>
           <Right>
