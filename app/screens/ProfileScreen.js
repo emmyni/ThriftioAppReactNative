@@ -22,8 +22,6 @@ const ProfileScreen = ({ navigation }) => {
     setUser(firebase.auth().currentUser);
   });
 
-  const signOut = () => {};
-
   return (
     <Container>
       <Content padder>

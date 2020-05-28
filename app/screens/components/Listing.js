@@ -30,7 +30,7 @@ const Listing = ({ navigation, item }) => {
             </Body>
           </Left>
           <Right>
-            <Text note>11h ago</Text>
+            <Text note>{item.created_at}</Text>
           </Right>
         </CardItem>
       </Card>

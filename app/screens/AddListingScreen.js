@@ -33,6 +33,7 @@ const AddListing = () => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
+  const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [images, setImages] = useState([]);
 
@@ -70,6 +71,7 @@ const AddListing = () => {
     let addItem = {
       item_name: item,
       price: price,
+      category: category,
       desc: desc,
       location: location,
       images: images,
@@ -77,12 +79,10 @@ const AddListing = () => {
       created_at: Date.now(),
     };
 
-    // console.log(addItem);
-
-    // firebase
-    //   .database()
-    //   .ref("/items/" + uuid())
-    //   .set(addItem);
+    firebase
+      .database()
+      .ref("/items/" + uuid())
+      .set(addItem);
   };
 
   return (
@@ -130,6 +130,11 @@ const AddListing = () => {
                 <Icon active name="logo-usd" style={styles.icon} />
                 <Label>Price</Label>
                 <Input onChangeText={(text) => setPrice(text)} />
+              </Item>
+              <Item floatingLabel>
+                <Icon active name="archive" style={styles.icon} />
+                <Label>Category</Label>
+                <Input onChangeText={(text) => setCategory(text)} />
               </Item>
               <Item floatingLabel last>
                 <Icon active name="information-circle" style={styles.icon} />

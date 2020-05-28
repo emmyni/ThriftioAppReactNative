@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Text } from "native-base";
+import { Button, Text, Icon } from "native-base";
 import * as Google from "expo-google-app-auth";
 import firebase from "firebase";
 
@@ -97,9 +97,11 @@ const LoginExternal = ({ navigation }) => {
   return (
     <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
       <Button block rounded onPress={() => signInWithGoogleAsync()}>
+        <Icon active name="logo-googleplus" />
         <Text>Google</Text>
       </Button>
       <Button block rounded>
+        <Icon active name="logo-facebook" />
         <Text>Facebook</Text>
       </Button>
     </View>

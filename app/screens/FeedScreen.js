@@ -31,9 +31,6 @@ const FeedScreen = ({ navigation }) => {
             <Listing key={key} item={items[key]} navigation={navigation} />
           );
         })}
-        {/* <Listing navigation={navigation} />
-        <Listing navigation={navigation} />
-        <Listing navigation={navigation} /> */}
       </Content>
       <NavigationMenu navigation={navigation} />
     </Container>
