@@ -19,7 +19,7 @@ const FeedScreen = ({ navigation }) => {
       .once("value", (snapshot) => {
         if (snapshot.val()) setItems(snapshot.val());
       });
-  });
+  }, []);
 
   return (
     <Container>

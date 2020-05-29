@@ -26,6 +26,7 @@ import {
 } from "native-base";
 import firebase from "firebase";
 import uuid from "uuid-random";
+import moment from "moment";
 
 import colors from "../config/colors";
 
@@ -91,7 +92,7 @@ const AddListing = () => {
       desc: desc,
       location: location,
       user_id: firebase.auth().currentUser.uid,
-      created_at: Date.now(),
+      created_at: moment().format(),
     };
 
     firebase

@@ -13,6 +13,7 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import PropTypes from "prop-types";
 import firebase from "firebase";
+import moment from "moment";
 
 const Listing = ({ navigation, item, id }) => {
   const [images, setImages] = useState([]);
@@ -54,7 +55,7 @@ const Listing = ({ navigation, item, id }) => {
             </Body>
           </Left>
           <Right>
-            <Text note>{item.created_at}</Text>
+            <Text note>{moment(item.created_at).fromNow()}</Text>
           </Right>
         </CardItem>
       </Card>
