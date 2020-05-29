@@ -10,6 +10,7 @@ import {
   Input,
   Button,
 } from "native-base";
+import firebase from "firebase";
 
 import BackgroundGradient from "./common/BackgroundGradient";
 
@@ -18,6 +19,16 @@ const SignupScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [email, setEmail] = useState("");
+
+  const signupUser = () => {
+    try {
+      if (password != password2) alert("Passwords don't match");
+      else if (password.length < 6) alert("Please enter at least 6 characters");
+      else firebase.auth().createUserWithEmailAndPassword(email, password);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Container style={styles.background}>
@@ -54,7 +65,7 @@ const SignupScreen = ({ navigation }) => {
               </Item>
             </Form>
             <View style={styles.button}>
-              <Button block light>
+              <Button block light onPress={() => signupUser()}>
                 <Text>Sign Up</Text>
               </Button>
             </View>

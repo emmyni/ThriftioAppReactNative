@@ -27,11 +27,19 @@ const ProfileScreen = ({ navigation }) => {
       <Content padder>
         <Card style={styles.card}>
           <CardItem>
-            <Thumbnail source={{ uri: user.photoURL }} />
+            <Thumbnail
+              source={{
+                uri:
+                  user.photoURL ||
+                  "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
+              }}
+            />
           </CardItem>
           <CardItem>
             <View>
-              <Text style={styles.profileText}>{user.displayName}</Text>
+              {user.displayName && (
+                <Text style={styles.profileText}>{user.displayName}</Text>
+              )}
               <Text style={styles.profileText} note>
                 {user.email}
               </Text>

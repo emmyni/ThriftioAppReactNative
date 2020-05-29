@@ -17,7 +17,7 @@ import BackgroundGradient from "./common/BackgroundGradient";
 import LoginExternal from "./LoginExternal";
 
 const LoginScreen = ({ navigation }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const checkIfLogin = () => {
@@ -31,6 +31,19 @@ const LoginScreen = ({ navigation }) => {
   useEffect(() => {
     checkIfLogin();
   });
+
+  const loginUser = () => {
+    try {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          console.log(user);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container>
@@ -47,8 +60,8 @@ const LoginScreen = ({ navigation }) => {
             <Form>
               <Item floatingLabel>
                 <Icon active name="person" />
-                <Label>Username</Label>
-                <Input onChangeText={(text) => setUsername(text)} />
+                <Label>Email</Label>
+                <Input onChangeText={(text) => setEmail(text)} />
               </Item>
               <Item floatingLabel last>
                 <Icon active name="lock" />
@@ -57,7 +70,7 @@ const LoginScreen = ({ navigation }) => {
               </Item>
             </Form>
             <View style={styles.button}>
-              <Button block light>
+              <Button block light onPress={() => loginUser()}>
                 <Text>Login</Text>
               </Button>
             </View>
