@@ -39,7 +39,11 @@ const Listing = ({ navigation, item, id }) => {
   }, []);
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate("ListingInfoScreen")}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("ListingInfoScreen", { images: images, item: item })
+      }
+    >
       <Card>
         <CardItem>
           <Image

@@ -23,16 +23,17 @@ const SavedListingsScreen = ({ navigation }) => {
   return (
     <Container>
       <Content padder>
-        {Object.keys(items).map((key) => {
-          return (
-            <Listing
-              key={key}
-              id={key}
-              item={items[key]}
-              navigation={navigation}
-            />
-          );
-        })}
+        {items &&
+          Object.keys(items).map((key) => {
+            return (
+              <Listing
+                key={key}
+                id={key}
+                item={items[key]}
+                navigation={navigation}
+              />
+            );
+          })}
       </Content>
     </Container>
   );

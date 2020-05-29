@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Image,
-  Button,
-} from "react-native";
+import { StyleSheet, View, ImageBackground, Image } from "react-native";
+import { Button, Text } from "native-base";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import firebase from "firebase";
 
@@ -48,10 +42,9 @@ const WelcomeScreen = ({ navigation }) => {
           <Text style={styles.text}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-      <Button
-        title="Continue as Guest"
-        onPress={() => navigation.navigate("FeedScreen")}
-      />
+      <Button transparent onPress={() => navigation.navigate("FeedScreen")}>
+        <Text style={styles.guestButtonText}>Continue as Guest</Text>
+      </Button>
     </ImageBackground>
   );
 };
@@ -65,6 +58,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  guestButtonText: {
+    color: colors.black,
   },
   loginButton: {
     backgroundColor: colors.primary,

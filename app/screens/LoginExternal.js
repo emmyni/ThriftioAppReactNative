@@ -112,7 +112,6 @@ const LoginExternal = ({ navigation }) => {
     if (type === "success") {
       // Build Firebase credential with the Facebook access token.
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      console.log(credential);
 
       // Sign in with credential from the Facebook user.
       firebase
@@ -163,7 +162,7 @@ const LoginExternal = ({ navigation }) => {
         <Icon active name="logo-googleplus" />
         <Text>Google</Text>
       </Button>
-      <Button block rounded onPress={() => logIn()}>
+      <Button block rounded onPress={() => loginWithFacebook()}>
         <Icon active name="logo-facebook" />
         <Text>Facebook</Text>
       </Button>

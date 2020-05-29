@@ -26,16 +26,17 @@ const FeedScreen = ({ navigation }) => {
       <SearchBar />
       <Content padder>
         <TagsList />
-        {Object.keys(items).map((key) => {
-          return (
-            <Listing
-              key={key}
-              id={key}
-              item={items[key]}
-              navigation={navigation}
-            />
-          );
-        })}
+        {items &&
+          Object.keys(items).map((key) => {
+            return (
+              <Listing
+                key={key}
+                id={key}
+                item={items[key]}
+                navigation={navigation}
+              />
+            );
+          })}
       </Content>
       <NavigationMenu navigation={navigation} />
     </Container>

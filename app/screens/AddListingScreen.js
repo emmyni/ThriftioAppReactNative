@@ -163,7 +163,7 @@ const AddListing = () => {
                   iosIcon={<Icon name="arrow-down" />}
                   placeholder="Category"
                   placeholderStyle={{ color: "#bfc6ea" }}
-                  placeholderIconColor="#007aff"
+                  placeholderIconColor={colors.primary}
                   style={{ width: undefined }}
                   selectedValue={category}
                   onValueChange={updateCategory.bind(this)}
