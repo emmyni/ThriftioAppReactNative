@@ -20,6 +20,7 @@ import {
   Button,
   Card,
   CardItem,
+  Picker,
   Left,
   Body,
   Right,
@@ -29,18 +30,19 @@ import uuid from "uuid-random";
 import moment from "moment";
 
 import colors from "../config/colors";
+import appDetails from "../config/appDetails";
 
 const AddListing = () => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(undefined);
   const [location, setLocation] = useState("");
   const [images, setImages] = useState([]);
 
   useEffect(() => {
     getPermissionAsync();
-  });
+  }, []);
 
   const getPermissionAsync = async () => {
     if (Platform.OS == "ios") {
@@ -101,6 +103,10 @@ const AddListing = () => {
       .set(addItem);
   };
 
+  const updateCategory = (value) => {
+    setCategory(value);
+  };
+
   return (
     <Container>
       <Content>
@@ -142,17 +148,38 @@ const AddListing = () => {
                 <Label>Item</Label>
                 <Input onChangeText={(text) => setItem(text)} />
               </Item>
-              <Item floatingLabel last>
+              <Item floatingLabel>
                 <Icon active name="logo-usd" style={styles.icon} />
                 <Label>Price</Label>
-                <Input onChangeText={(text) => setPrice(text)} />
+                <Input
+                  onChangeText={(text) => setPrice(text.replace(/[^0-9]/g, ""))}
+                  keyboardType="numeric"
+                />
+              </Item>
+              <Item style={{ marginTop: 20 }}>
+                <Icon active name="archive" style={styles.icon} />
+                <Picker
+                  mode="dropdown"
+                  iosIcon={<Icon name="arrow-down" />}
+                  placeholder="Category"
+                  placeholderStyle={{ color: "#bfc6ea" }}
+                  placeholderIconColor="#007aff"
+                  style={{ width: undefined }}
+                  selectedValue={category}
+                  onValueChange={updateCategory.bind(this)}
+                >
+                  {appDetails.category.map((category) => {
+                    return (
+                      <Picker.Item
+                        key={category.index}
+                        label={category.name}
+                        value={category.index}
+                      />
+                    );
+                  })}
+                </Picker>
               </Item>
               <Item floatingLabel>
-                <Icon active name="archive" style={styles.icon} />
-                <Label>Category</Label>
-                <Input onChangeText={(text) => setCategory(text)} />
-              </Item>
-              <Item floatingLabel last>
                 <Icon active name="information-circle" style={styles.icon} />
                 <Label>Description</Label>
                 <Input

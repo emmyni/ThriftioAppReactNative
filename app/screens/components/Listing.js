@@ -19,7 +19,7 @@ const Listing = ({ navigation, item, id }) => {
   const [images, setImages] = useState([]);
   useEffect(() => {
     // Create a reference under which you want to list
-    const userId = firebase.auth().currentUser.uid;
+    const userId = item.user_id;
     let listRef = firebase
       .storage()
       .ref()

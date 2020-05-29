@@ -56,12 +56,18 @@ const SignupScreen = ({ navigation }) => {
               <Item floatingLabel>
                 <Icon active name="lock" />
                 <Label>Password</Label>
-                <Input onChangeText={(text) => setPassword(text)} />
+                <Input
+                  secureTextEntry={true}
+                  onChangeText={(text) => setPassword(text)}
+                />
               </Item>
               <Item floatingLabel last>
                 <Icon active name="lock" />
                 <Label>Re-enter Password</Label>
-                <Input onChangeText={(text) => setPassword2(text)} />
+                <Input
+                  secureTextEntry={true}
+                  onChangeText={(text) => setPassword2(text)}
+                />
               </Item>
             </Form>
             <View style={styles.button}>

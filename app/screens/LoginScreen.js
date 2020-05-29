@@ -34,12 +34,7 @@ const LoginScreen = ({ navigation }) => {
 
   const loginUser = () => {
     try {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then((user) => {
-          console.log(user);
-        });
+      firebase.auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +61,10 @@ const LoginScreen = ({ navigation }) => {
               <Item floatingLabel last>
                 <Icon active name="lock" />
                 <Label>Password</Label>
-                <Input onChangeText={(text) => setPassword(text)} />
+                <Input
+                  secureTextEntry={true}
+                  onChangeText={(text) => setPassword(text)}
+                />
               </Item>
             </Form>
             <View style={styles.button}>
