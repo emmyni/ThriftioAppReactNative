@@ -18,7 +18,7 @@ const SavedListingsScreen = ({ navigation }) => {
       .once("value", (snapshot) => {
         setItems(snapshot.val());
       });
-  });
+  }, []);
 
   return (
     <Container>

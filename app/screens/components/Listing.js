@@ -35,14 +35,14 @@ const Listing = ({ navigation, item, id }) => {
       .catch(function (error) {
         console.log(error);
       });
-  });
+  }, []);
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate("ListingInfoScreen")}>
       <Card>
         <CardItem>
           <Image
-            source={{ uri: "hello" }}
+            source={{ uri: images[0] }}
             style={{ height: 200, width: null, flex: 1 }}
           />
         </CardItem>

@@ -36,7 +36,6 @@ const AddListing = () => {
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [images, setImages] = useState([]);
-  const [downloadUrls, setDownloadUrls] = useState([]);
 
   useEffect(() => {
     getPermissionAsync();
@@ -75,9 +74,7 @@ const AddListing = () => {
       .storage()
       .ref(firebase.auth().currentUser.uid + "/" + id)
       .child(title.toString());
-    const fileData = await ref.put(blob);
-    const imageSrc = await fileData.ref.getDownloadURL();
-    setDownloadUrls([...downloadUrls, imageSrc]);
+    return ref.put(blob);
   };
 
   const createPost = () => {
@@ -91,7 +88,6 @@ const AddListing = () => {
       item_name: item,
       price: price,
       category: category,
-      images: downloadUrls,
       desc: desc,
       location: location,
       user_id: firebase.auth().currentUser.uid,

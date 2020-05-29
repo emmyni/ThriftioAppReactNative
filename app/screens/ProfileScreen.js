@@ -20,7 +20,7 @@ const ProfileScreen = ({ navigation }) => {
 
   useEffect(() => {
     setUser(firebase.auth().currentUser);
-  });
+  }, []);
 
   return (
     <Container>
