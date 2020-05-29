@@ -25,11 +25,15 @@ const ListingsScreen = ({ navigation }) => {
       <Content padder>
         {Object.keys(items).map((key) => {
           return (
-            <Listing key={key} item={items[key]} navigation={navigation} />
+            <Listing
+              key={key}
+              id={key}
+              item={items[key]}
+              navigation={navigation}
+            />
           );
         })}
       </Content>
-      {/* <NavigationMenu navigation={navigation} /> */}
     </Container>
   );
 };

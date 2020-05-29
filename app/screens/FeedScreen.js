@@ -17,7 +17,7 @@ const FeedScreen = ({ navigation }) => {
       .ref("items")
       .orderByChild("item_name")
       .once("value", (snapshot) => {
-        setItems(snapshot.val());
+        if (snapshot.val()) setItems(snapshot.val());
       });
   });
 
@@ -28,7 +28,12 @@ const FeedScreen = ({ navigation }) => {
         <TagsList />
         {Object.keys(items).map((key) => {
           return (
-            <Listing key={key} item={items[key]} navigation={navigation} />
+            <Listing
+              key={key}
+              id={key}
+              item={items[key]}
+              navigation={navigation}
+            />
           );
         })}
       </Content>

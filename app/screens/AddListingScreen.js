@@ -36,6 +36,7 @@ const AddListing = () => {
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [images, setImages] = useState([]);
+  const [downloadUrls, setDownloadUrls] = useState([]);
 
   useEffect(() => {
     getPermissionAsync();
@@ -67,21 +68,39 @@ const AddListing = () => {
     }
   };
 
+  const uploadImage = async (uri, title, id) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    let ref = firebase
+      .storage()
+      .ref(firebase.auth().currentUser.uid + "/" + id)
+      .child(title.toString());
+    const fileData = await ref.put(blob);
+    const imageSrc = await fileData.ref.getDownloadURL();
+    setDownloadUrls([...downloadUrls, imageSrc]);
+  };
+
   const createPost = () => {
+    const id = uuid();
+
+    images.map((image, index) => {
+      uploadImage(image, index, id);
+    });
+
     let addItem = {
       item_name: item,
       price: price,
       category: category,
+      images: downloadUrls,
       desc: desc,
       location: location,
-      images: images,
       user_id: firebase.auth().currentUser.uid,
       created_at: Date.now(),
     };
 
     firebase
       .database()
-      .ref("/items/" + uuid())
+      .ref("/items/" + id)
       .set(addItem);
   };
 
