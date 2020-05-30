@@ -1,37 +1,60 @@
 import React, { useState, useEffect } from "react";
-import { Image, Animated, StyleSheet, Dimensions } from "react-native";
+import { Image, StyleSheet, Dimensions } from "react-native";
 import {
   Container,
-  Header,
   View,
-  DeckSwiper,
   Card,
   CardItem,
   Thumbnail,
   Text,
   Left,
   Body,
-  Icon,
   Item,
   Input,
   Button,
   Form,
-  Right,
 } from "native-base";
 import { ScrollView } from "react-native-gesture-handler";
+import firebase from "firebase";
 
 import colors from "../config/colors";
 
+import Maps from "./common/Maps";
+
 const ListingInfo = ({ route }) => {
   const [message, setMessage] = useState("Is this still available?");
+  const [itemUser, setItemUser] = useState({});
+  const [numItems, setNumItems] = useState(1);
   const { images } = route.params;
   const { item } = route.params;
+
+  useEffect(() => {
+    // get listing user information
+    firebase
+      .database()
+      .ref("users/" + item.user_id)
+      .once("value")
+      .then((snapshot) => {
+        setItemUser(snapshot.val());
+      });
+
+    // get number of listings
+    firebase
+      .database()
+      .ref("items")
+      .orderByChild("user_id")
+      .equalTo(item.user_id)
+      .on("value", (snapshot) => {
+        const num = Object.keys(snapshot.val()).length;
+        setNumItems(num);
+      });
+  }, []);
 
   const sendMessage = () => {};
 
   return (
-    <ScrollView>
-      <Container>
+    <View style={styles.container}>
+      <ScrollView>
         <Card transparent>
           <CardItem cardBody>
             <ScrollView horizontal={true}>
@@ -56,28 +79,36 @@ const ListingInfo = ({ route }) => {
           </CardItem>
           <CardItem>
             <Left>
-              <Thumbnail source={{ uri: "Image URL" }} />
+              <Thumbnail
+                source={{
+                  uri:
+                    itemUser.profile_picture ||
+                    "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
+                }}
+              />
               <Body>
-                <Text>NativeBase</Text>
-                <Text note>GeekyAnts</Text>
+                <Text>{itemUser.first_name + " " + itemUser.last_name}</Text>
+                <Text note>
+                  {numItems + (numItems === 1 ? " listing" : " listings")}
+                </Text>
               </Body>
             </Left>
           </CardItem>
-        </Card>
-        <Form style={styles.form}>
-          <Item rounded style={styles.inputBox}>
-            <Input onChangeText={(text) => setMessage(text)}>
-              <Text>{message}</Text>
-            </Input>
-          </Item>
+          <Form style={styles.form}>
+            <Item rounded style={styles.inputBox}>
+              <Input onChangeText={(text) => setMessage(text)}>
+                <Text>{message}</Text>
+              </Input>
+            </Item>
 
-          <Button rounded block onPress={() => sendMessage()}>
-            <Text>Message Seller</Text>
-          </Button>
-        </Form>
-        <View style={{ height: 800 }}></View>
-      </Container>
-    </ScrollView>
+            <Button rounded block onPress={() => sendMessage()}>
+              <Text>Message Seller</Text>
+            </Button>
+          </Form>
+        </Card>
+        <Maps />
+      </ScrollView>
+    </View>
   );
 };
 
@@ -85,11 +116,16 @@ export default ListingInfo;
 
 const { height, width } = Dimensions.get("screen");
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
   form: {
     margin: 10,
+    justifyContent: "center",
   },
   image: {
-    height: height / 2,
+    height: height * 0.4,
     width: width,
     marginRight: 15,
     flex: 1,
