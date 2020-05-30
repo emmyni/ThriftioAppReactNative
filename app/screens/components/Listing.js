@@ -17,6 +17,7 @@ import moment from "moment";
 
 const Listing = ({ navigation, item, id }) => {
   const [images, setImages] = useState([]);
+
   useEffect(() => {
     // Create a reference under which you want to list
     const userId = item.user_id;
@@ -28,12 +29,17 @@ const Listing = ({ navigation, item, id }) => {
     // Find all the prefixes and items.
     listRef
       .listAll()
-      .then(function (res) {
-        res.items.forEach(function (itemRef) {
-          itemRef.getDownloadURL().then((url) => setImages([...images, url]));
+      .then((res) => {
+        console.log(res.items.length);
+        const result = [];
+        res.items.forEach((itemRef) => {
+          itemRef.getDownloadURL().then((url) => {
+            result.push(url);
+            setImages(result);
+          });
         });
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
   }, []);
