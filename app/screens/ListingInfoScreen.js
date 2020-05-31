@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, Dimensions } from "react-native";
 import {
-  Container,
   View,
   Card,
   CardItem,
@@ -51,6 +50,7 @@ const ListingInfo = ({ route }) => {
   }, []);
 
   const sendMessage = () => {};
+  const isSameUser = item.user_id === firebase.auth().currentUser.uid;
 
   return (
     <View style={styles.container}>
@@ -70,14 +70,14 @@ const ListingInfo = ({ route }) => {
             </ScrollView>
           </CardItem>
 
-          <CardItem>
+          <CardItem bordered>
             <Body>
               <Text>{item.item_name}</Text>
               <Text style={styles.priceText}>${item.price}</Text>
               <Text note>{item.desc}</Text>
             </Body>
           </CardItem>
-          <CardItem>
+          <CardItem bordered>
             <Left>
               <Thumbnail
                 source={{
@@ -94,17 +94,19 @@ const ListingInfo = ({ route }) => {
               </Body>
             </Left>
           </CardItem>
-          <Form style={styles.form}>
-            <Item rounded style={styles.inputBox}>
-              <Input onChangeText={(text) => setMessage(text)}>
-                <Text>{message}</Text>
-              </Input>
-            </Item>
+          {!isSameUser && (
+            <Form style={styles.form}>
+              <Item rounded style={styles.inputBox}>
+                <Input onChangeText={(text) => setMessage(text)}>
+                  <Text>{message}</Text>
+                </Input>
+              </Item>
 
-            <Button rounded block onPress={() => sendMessage()}>
-              <Text>Message Seller</Text>
-            </Button>
-          </Form>
+              <Button rounded block onPress={() => sendMessage()}>
+                <Text>Message Seller</Text>
+              </Button>
+            </Form>
+          )}
         </Card>
         <Maps />
       </ScrollView>
