@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
 import firebase from "firebase";
 import moment from "moment";
 
+import colors from "../../config/colors";
 const Listing = ({ navigation, item, id }) => {
   const [images, setImages] = useState([]);
 
@@ -30,7 +31,6 @@ const Listing = ({ navigation, item, id }) => {
     listRef
       .listAll()
       .then((res) => {
-        console.log(res.items.length);
         const result = [];
         res.items.forEach((itemRef) => {
           itemRef.getDownloadURL().then((url) => {
@@ -52,16 +52,13 @@ const Listing = ({ navigation, item, id }) => {
     >
       <Card>
         <CardItem>
-          <Image
-            source={{ uri: images[0] }}
-            style={{ height: 200, width: null, flex: 1 }}
-          />
+          <Image source={{ uri: images[0] }} style={styles.image} />
         </CardItem>
         <CardItem>
           <Left>
             <Body>
               <Text>{item.item_name}</Text>
-              <Text note>{item.desc}</Text>
+              <Text style={styles.priceText}>${item.price}</Text>
             </Body>
           </Left>
           <Right>
@@ -79,4 +76,13 @@ Listing.propTypes = {
 
 export default Listing;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  image: {
+    height: 200,
+    width: null,
+    flex: 1,
+  },
+  priceText: {
+    color: colors.primary,
+  },
+});

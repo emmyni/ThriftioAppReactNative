@@ -32,13 +32,16 @@ import moment from "moment";
 import colors from "../config/colors";
 import appDetails from "../config/appDetails";
 
-const AddListing = () => {
+import SpinnerScreen from "./SpinnerScreen";
+
+const AddListing = ({ navigation }) => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
   const [category, setCategory] = useState(undefined);
   const [location, setLocation] = useState("");
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getPermissionAsync();
@@ -80,7 +83,9 @@ const AddListing = () => {
     return ref.put(blob);
   };
 
-  const createPost = () => {
+  const createPost = async () => {
+    setLoading(true);
+
     const id = uuid();
 
     images.map((image, index) => {
@@ -97,15 +102,20 @@ const AddListing = () => {
       created_at: moment().format(),
     };
 
-    firebase
+    await firebase
       .database()
       .ref("/items/" + id)
       .set(addItem);
+
+    setLoading(false);
+    navigation.navigate("ListingInfoScreen", { images: images, item: addItem });
   };
 
   const updateCategory = (value) => {
     setCategory(value);
   };
+
+  if (loading) return <SpinnerScreen />;
 
   return (
     <Container>

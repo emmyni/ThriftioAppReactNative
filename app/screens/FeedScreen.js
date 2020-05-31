@@ -16,7 +16,7 @@ const FeedScreen = ({ navigation }) => {
       .database()
       .ref("items")
       .orderByChild("item_name")
-      .once("value", (snapshot) => {
+      .on("value", (snapshot) => {
         if (snapshot.val()) setItems(snapshot.val());
       });
   }, []);
