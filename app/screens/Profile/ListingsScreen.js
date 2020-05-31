@@ -15,10 +15,10 @@ const ListingsScreen = ({ navigation }) => {
       .ref("items")
       .orderByChild("user_id")
       .equalTo(userId)
-      .once("value", (snapshot) => {
-        setItems(snapshot.val());
+      .on("value", (snapshot) => {
+        if (snapshot.val()) setItems(snapshot.val());
       });
-  });
+  }, []);
 
   return (
     <Container>
