@@ -16,12 +16,12 @@ import {
   Title,
 } from "native-base";
 
-const MessagesScreen = ({ navigation: { goBack } }) => {
+const MessagesScreen = ({ navigation }) => {
   return (
     <Container>
       <Header>
         <Left>
-          <Button transparent onPress={() => goBack()}>
+          <Button transparent onPress={() => navigation.goBack()}>
             <Icon name="arrow-back" />
           </Button>
         </Left>
