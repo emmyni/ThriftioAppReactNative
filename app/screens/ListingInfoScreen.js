@@ -12,15 +12,16 @@ import {
   Input,
   Button,
   Form,
+  Icon,
 } from "native-base";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import firebase from "firebase";
 
 import colors from "../config/colors";
 
 import Maps from "./common/Maps";
 
-const ListingInfo = ({ route }) => {
+const ListingInfo = ({ navigation, route }) => {
   const [message, setMessage] = useState("Is this still available?");
   const [itemUser, setItemUser] = useState({});
   const [numItems, setNumItems] = useState(1);
@@ -54,6 +55,11 @@ const ListingInfo = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.closeIcon}>
+        <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
+          <Icon active name="close-circle" />
+        </TouchableOpacity>
+      </View>
       <ScrollView>
         <Card transparent>
           <CardItem cardBody>
@@ -118,6 +124,12 @@ export default ListingInfo;
 
 const { height, width } = Dimensions.get("screen");
 const styles = StyleSheet.create({
+  closeIcon: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    zIndex: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: colors.white,
