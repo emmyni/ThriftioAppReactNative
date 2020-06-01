@@ -15,11 +15,28 @@ import firebase from "firebase";
 
 import Listing from "../components/Listing";
 
-const SavedListingsScreen = ({ navigation }) => {
+const MyListingsScreen = ({ navigation, route }) => {
   const [items, setItems] = useState({});
+  const { mine } = route.params;
 
   useEffect(() => {
     const userId = firebase.auth().currentUser.uid;
+    mine ? getMyListings(userId) : getSavedListings(userId);
+  }, []);
+
+  const getMyListings = (userId) => {
+    console.log("mine");
+    firebase
+      .database()
+      .ref("items")
+      .orderByChild("user_id")
+      .equalTo(userId)
+      .on("value", (snapshot) => {
+        if (snapshot.val()) setItems(snapshot.val());
+      });
+  };
+  const getSavedListings = (userId) => {
+    console.log("saved");
     firebase
       .database()
       .ref("items")
@@ -28,7 +45,7 @@ const SavedListingsScreen = ({ navigation }) => {
       .once("value", (snapshot) => {
         setItems(snapshot.val());
       });
-  }, []);
+  };
 
   return (
     <Container>
@@ -39,7 +56,9 @@ const SavedListingsScreen = ({ navigation }) => {
           </Button>
         </Left>
         <Body>
-          <Text style={{ fontWeight: "bold" }}>Saved Listings</Text>
+          <Text style={{ fontWeight: "bold" }}>
+            {mine ? "My Listings" : "Saved Listings"}
+          </Text>
         </Body>
         <Right />
       </Header>
@@ -60,6 +79,6 @@ const SavedListingsScreen = ({ navigation }) => {
   );
 };
 
-export default SavedListingsScreen;
+export default MyListingsScreen;
 
 const styles = StyleSheet.create({});

@@ -49,7 +49,9 @@ const ProfileScreen = ({ navigation }) => {
         <Card>
           <CardItem
             button
-            onPress={() => navigation.navigate("MyListingsScreen")}
+            onPress={() =>
+              navigation.navigate("MyListingsScreen", { mine: true })
+            }
           >
             <Icon active name="list" />
             <Text>My Listings</Text>
@@ -69,7 +71,9 @@ const ProfileScreen = ({ navigation }) => {
           </CardItem>
           <CardItem
             button
-            onPress={() => navigation.navigate("SavedListingsScreen")}
+            onPress={() =>
+              navigation.navigate("MyListingsScreen", { mine: false })
+            }
           >
             <Icon active name="bookmark" />
             <Text>Saved Listings</Text>
