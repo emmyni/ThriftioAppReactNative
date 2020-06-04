@@ -66,11 +66,14 @@ const ListingInfo = ({ navigation, route }) => {
             <ScrollView horizontal={true}>
               {images.map((image, index) => {
                 return (
-                  <Image
+                  <TouchableOpacity
                     key={index}
-                    source={{ uri: image }}
-                    style={styles.image}
-                  />
+                    onPress={() =>
+                      navigation.navigate("ViewImageScreen", { image: image })
+                    }
+                  >
+                    <Image source={{ uri: image }} style={styles.image} />
+                  </TouchableOpacity>
                 );
               })}
             </ScrollView>

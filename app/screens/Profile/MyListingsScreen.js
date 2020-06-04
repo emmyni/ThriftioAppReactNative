@@ -25,7 +25,6 @@ const MyListingsScreen = ({ navigation, route }) => {
   }, []);
 
   const getMyListings = (userId) => {
-    console.log("mine");
     firebase
       .database()
       .ref("items")
@@ -36,7 +35,6 @@ const MyListingsScreen = ({ navigation, route }) => {
       });
   };
   const getSavedListings = (userId) => {
-    console.log("saved");
     firebase
       .database()
       .ref("items")

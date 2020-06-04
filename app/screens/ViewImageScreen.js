@@ -1,17 +1,24 @@
 import React from "react";
-import { StyleSheet, Text, Image, View } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Icon } from "native-base";
 
 import colors from "../config/colors";
 
-const ViewImageScreen = () => {
+const ViewImageScreen = ({ navigation, route }) => {
+  const { image } = route.params;
+
   return (
     <View style={styles.container}>
-      <View style={styles.closeIcon}></View>
-      <View style={styles.deleteIcon}></View>
+      <View style={styles.closeIcon}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon active name="close-circle" style={{ color: "white" }} />
+        </TouchableOpacity>
+      </View>
       <Image
         resizeMode="contain"
         style={styles.image}
-        source={require("../assets/chair.jpg")}
+        source={{ uri: image }}
       ></Image>
     </View>
   );
@@ -19,24 +26,14 @@ const ViewImageScreen = () => {
 
 const styles = StyleSheet.create({
   closeIcon: {
-    width: 50,
-    height: 50,
-    backgroundColor: colors.primary,
     position: "absolute",
-    top: 40,
-    left: 30,
+    top: 20,
+    left: 20,
+    zIndex: 10,
   },
   container: {
     backgroundColor: colors.black,
     flex: 1,
-  },
-  deleteIcon: {
-    width: 50,
-    height: 50,
-    backgroundColor: colors.secondary,
-    position: "absolute",
-    top: 40,
-    right: 30,
   },
   image: {
     width: "100%",
