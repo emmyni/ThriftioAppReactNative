@@ -25,6 +25,7 @@ import {
   Body,
   Right,
 } from "native-base";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import firebase from "firebase";
 import uuid from "uuid-random";
 import moment from "moment";
@@ -115,6 +116,10 @@ const AddListing = ({ navigation }) => {
     setCategory(value);
   };
 
+  const deleteImage = (image) => {
+    setImages(images.filter((photo) => photo != image));
+  };
+
   if (loading) return <SpinnerScreen />;
 
   return (
@@ -145,6 +150,11 @@ const AddListing = ({ navigation }) => {
               {images.map((photo, index) => {
                 return (
                   <CardItem key={index}>
+                    <View style={styles.closeIcon}>
+                      <TouchableOpacity onPress={() => deleteImage(photo)}>
+                        <Icon active name="close-circle" />
+                      </TouchableOpacity>
+                    </View>
                     <Image source={{ uri: photo }} style={styles.image} />
                   </CardItem>
                 );
@@ -229,6 +239,12 @@ const styles = StyleSheet.create({
   },
   addIcon: {
     fontSize: 40,
+  },
+  closeIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    zIndex: 10,
   },
   container: {
     flex: 1,

@@ -12,7 +12,7 @@ const ViewImageScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.closeIcon}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon active name="close-circle" style={{ color: "white" }} />
+          <Icon active name="close-circle" style={{ color: colors.white }} />
         </TouchableOpacity>
       </View>
       <Image
