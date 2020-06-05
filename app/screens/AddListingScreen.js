@@ -182,7 +182,7 @@ const AddListing = ({ navigation }) => {
                   mode="dropdown"
                   iosIcon={<Icon name="arrow-down" />}
                   placeholder="Category"
-                  placeholderStyle={{ color: "#bfc6ea" }}
+                  placeholderStyle={{ color: colors.gray }}
                   placeholderIconColor={colors.primary}
                   style={{ width: undefined }}
                   selectedValue={category}
