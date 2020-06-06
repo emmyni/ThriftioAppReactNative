@@ -16,6 +16,7 @@ import {
   Icon,
 } from "native-base";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import PropTypes from "prop-types";
 import firebase from "firebase";
 
 import colors from "../config/colors";
@@ -27,8 +28,11 @@ const ListingInfo = ({ navigation, route }) => {
   const [itemUser, setItemUser] = useState({});
   const [numItems, setNumItems] = useState(1);
   const [isFavourite, setIsFavourite] = useState(false);
+  const [favouriteListings, setFavouriteListings] = useState([]);
   const { images } = route.params;
   const { item } = route.params;
+  const { id } = route.params;
+  const currentUser = firebase.auth().currentUser;
 
   useEffect(() => {
     // get listing user information
@@ -50,17 +54,43 @@ const ListingInfo = ({ navigation, route }) => {
         const num = Object.keys(snapshot.val()).length;
         setNumItems(num);
       });
+
+    // get existing favourite listings
+    firebase
+      .database()
+      .ref("users/" + currentUser.uid + "/favourite_items")
+      .on("value", (snapshot) => {
+        if (snapshot.val()) {
+          setFavouriteListings(snapshot.val());
+          if (snapshot.val().includes(id)) setIsFavourite(true);
+        }
+      });
   }, []);
 
   const sendMessage = () => {};
   const favouriteListing = () => {
     if (isFavourite) {
-      
+      setFavouriteListings(favouriteListings.filter((curr) => curr != id));
+      firebase
+        .database()
+        .ref("users/" + currentUser.uid)
+        .update({
+          favourite_items: favouriteListings.filter((curr) => curr != id),
+        });
     } else {
+      setFavouriteListings([...favouriteListings, id]);
+      firebase
+        .database()
+        .ref("users/" + currentUser.uid)
+        .update({
+          favourite_items: [...favouriteListings, id],
+        });
     }
+
     setIsFavourite(!isFavourite);
   };
-  const isSameUser = item.user_id === firebase.auth().currentUser.uid;
+
+  const isSameUser = item.user_id === currentUser.uid;
 
   return (
     <View style={styles.container}>
@@ -138,6 +168,11 @@ const ListingInfo = ({ navigation, route }) => {
       </ScrollView>
     </View>
   );
+};
+
+ListingInfo.propTypes = {
+  item: PropTypes.object,
+  id: PropTypes.string,
 };
 
 export default ListingInfo;

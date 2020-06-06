@@ -16,6 +16,7 @@ import firebase from "firebase";
 import moment from "moment";
 
 import colors from "../../config/colors";
+
 const Listing = ({ navigation, item, id }) => {
   const [images, setImages] = useState([]);
 
@@ -47,7 +48,11 @@ const Listing = ({ navigation, item, id }) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("ListingInfoScreen", { images: images, item: item })
+        navigation.navigate("ListingInfoScreen", {
+          images: images,
+          item: item,
+          id: id,
+        })
       }
     >
       <Card>
@@ -72,6 +77,7 @@ const Listing = ({ navigation, item, id }) => {
 
 Listing.propTypes = {
   item: PropTypes.object,
+  id: PropTypes.string,
 };
 
 export default Listing;
