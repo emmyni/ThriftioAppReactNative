@@ -8,6 +8,7 @@ import {
   Text,
   Left,
   Body,
+  Right,
   Item,
   Input,
   Button,
@@ -25,6 +26,7 @@ const ListingInfo = ({ navigation, route }) => {
   const [message, setMessage] = useState("Is this still available?");
   const [itemUser, setItemUser] = useState({});
   const [numItems, setNumItems] = useState(1);
+  const [isFavourite, setIsFavourite] = useState(false);
   const { images } = route.params;
   const { item } = route.params;
 
@@ -51,6 +53,13 @@ const ListingInfo = ({ navigation, route }) => {
   }, []);
 
   const sendMessage = () => {};
+  const favouriteListing = () => {
+    if (isFavourite) {
+      
+    } else {
+    }
+    setIsFavourite(!isFavourite);
+  };
   const isSameUser = item.user_id === firebase.auth().currentUser.uid;
 
   return (
@@ -85,6 +94,14 @@ const ListingInfo = ({ navigation, route }) => {
               <Text style={styles.priceText}>${item.price}</Text>
               <Text note>{item.desc}</Text>
             </Body>
+            <Right>
+              <Icon
+                active
+                name={isFavourite ? "star" : "star-outline"}
+                style={styles.favouriteIcon}
+                onPress={() => favouriteListing()}
+              ></Icon>
+            </Right>
           </CardItem>
           <CardItem bordered>
             <Left>
@@ -136,6 +153,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
+  },
+  favouriteIcon: {
+    color: colors.primary,
   },
   form: {
     margin: 10,
