@@ -35,13 +35,29 @@ const MyListingsScreen = ({ navigation, route }) => {
       });
   };
   const getSavedListings = (userId) => {
+    // retrieve favourite item ids from user section of database
+    let favourites = [];
     firebase
       .database()
-      .ref("items")
-      .orderByChild("user_id")
-      .equalTo(userId)
-      .once("value", (snapshot) => {
-        setItems(snapshot.val());
+      .ref("users/" + userId + "/favourite_items")
+      .on("value", (snapshot) => {
+        if (snapshot.val()) {
+          favourites = snapshot.val();
+
+          // get favItems information from the items part of database
+          let favItems = {};
+
+          const ref = firebase.database().ref("items");
+          favourites.map((fav) => {
+            ref
+              .orderByKey()
+              .equalTo(fav)
+              .once("value", (snapshot) => {
+                if (snapshot.val()) favItems[fav] = snapshot.val()[fav];
+              });
+          });
+          setItems(favItems);
+        }
       });
   };
 
