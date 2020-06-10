@@ -32,7 +32,13 @@ const MessagesScreen = ({ navigation }) => {
       </Header>
       <Content>
         <List>
-          <ListItem avatar>
+          <ListItem
+            avatar
+            button
+            onPress={() => {
+              navigation.navigate("ChatScreen");
+            }}
+          >
             <Left>
               <Thumbnail source={{ uri: "Image URL" }} />
             </Left>
