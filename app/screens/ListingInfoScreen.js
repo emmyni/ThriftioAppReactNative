@@ -18,6 +18,7 @@ import {
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import PropTypes from "prop-types";
 import firebase from "firebase";
+import uuid from "uuid-random";
 
 import colors from "../config/colors";
 
@@ -67,7 +68,40 @@ const ListingInfo = ({ navigation, route }) => {
       });
   }, []);
 
-  const sendMessage = () => {};
+  const sendMessage = () => {
+    const messageId = uuid();
+    const giftedMessage = {
+      _id: uuid(),
+      text: message,
+      createdAt: new Date(),
+      user: {
+        _id: currentUser.uid,
+        name: currentUser.first_name + " " + currentUser.last_name,
+        avatar:
+          itemUser.profile_picture ||
+          "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
+      },
+    };
+
+    // create new message
+    firebase
+      .database()
+      .ref("/messages/" + messageId)
+      .set({
+        users: [currentUser.uid, item.user_id],
+        messages: [giftedMessage],
+      });
+
+    // add new chat to messages section of users database
+    firebase
+      .database()
+      .ref("/users/" + currentUser.uid)
+      .update({
+        messages: [{ chatId: messageId, userId: item.user_id }],
+      });
+
+    // TODO update
+  };
   const favouriteListing = () => {
     if (isFavourite) {
       setFavouriteListings(favouriteListings.filter((curr) => curr != id));

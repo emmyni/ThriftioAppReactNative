@@ -1,22 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   Container,
   Header,
   Content,
   List,
-  ListItem,
   Left,
   Body,
   Right,
-  Thumbnail,
-  Text,
   Icon,
   Button,
   Title,
 } from "native-base";
+import firebase from "firebase";
+
+import Chat from "../components/Chat";
 
 const MessagesScreen = ({ navigation }) => {
+  const currentUser = firebase.auth().currentUser;
+  const [chats, setChats] = useState([]);
+  useEffect(() => {
+    firebase
+      .database()
+      .ref("/users/" + currentUser.uid + "/messages")
+      .on("value", (snapshot) => {
+        console.log(snapshot.val());
+        if (snapshot.val()) setChats(snapshot.val());
+      });
+  }, []);
+
   return (
     <Container>
       <Header>
@@ -32,26 +44,7 @@ const MessagesScreen = ({ navigation }) => {
       </Header>
       <Content>
         <List>
-          <ListItem
-            avatar
-            button
-            onPress={() => {
-              navigation.navigate("ChatScreen");
-            }}
-          >
-            <Left>
-              <Thumbnail source={{ uri: "Image URL" }} />
-            </Left>
-            <Body>
-              <Text>Kumar Pratik</Text>
-              <Text note>
-                Doing what you like will always keep you happy . .
-              </Text>
-            </Body>
-            <Right>
-              <Text note>3:43 pm</Text>
-            </Right>
-          </ListItem>
+          <Chat navigation={navigation} />
         </List>
       </Content>
     </Container>
