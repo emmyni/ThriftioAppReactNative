@@ -24,7 +24,6 @@ const MessagesScreen = ({ navigation }) => {
       .database()
       .ref("/users/" + currentUser.uid + "/messages")
       .on("value", (snapshot) => {
-        console.log(snapshot.val());
         if (snapshot.val()) setChats(snapshot.val());
       });
   }, []);
@@ -44,7 +43,12 @@ const MessagesScreen = ({ navigation }) => {
       </Header>
       <Content>
         <List>
-          <Chat navigation={navigation} />
+          {chats &&
+            Object.keys(chats).map((key) => {
+              return (
+                <Chat key={key} chat={chats[key]} navigation={navigation} />
+              );
+            })}
         </List>
       </Content>
     </Container>

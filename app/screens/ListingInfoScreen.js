@@ -19,6 +19,7 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import PropTypes from "prop-types";
 import firebase from "firebase";
 import uuid from "uuid-random";
+import moment from "moment";
 
 import colors from "../config/colors";
 
@@ -73,10 +74,12 @@ const ListingInfo = ({ navigation, route }) => {
     const giftedMessage = {
       _id: uuid(),
       text: message,
-      createdAt: new Date(),
+      createdAt: moment().format(),
       user: {
         _id: currentUser.uid,
-        name: currentUser.first_name + " " + currentUser.last_name,
+        name:
+          currentUser.first_name + " " + currentUser.last_name ||
+          currentUser.email,
         avatar:
           itemUser.profile_picture ||
           "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
