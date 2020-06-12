@@ -8,7 +8,7 @@ export default function Chat({ navigation, chat }) {
   const chatId = chat.chatId;
   const otherUserId = chat.userId;
   const [otherUser, setOtherUser] = useState({});
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState({});
 
   useEffect(() => {
     firebase
@@ -22,20 +22,24 @@ export default function Chat({ navigation, chat }) {
     firebase
       .database()
       .ref("/messages/" + chatId + "/messages")
+      .orderByChild("createdAt")
+      .limitToLast(1)
       .once("value")
       .then((snapshot) => {
-        setMessages(snapshot.val());
+        const data = snapshot.val();
+        const message = data[Object.keys(data)[0]];
+        console.log(message);
+        setMessages(message);
       });
   }, []);
 
-  if (messages[0]) {
+  if (messages) {
     return (
       <ListItem
         avatar
         button
         onPress={() => {
           navigation.navigate("ChatScreen", {
-            messages: messages,
             chatId: chatId,
           });
         }}
@@ -55,12 +59,12 @@ export default function Chat({ navigation, chat }) {
               otherUser.email}
           </Text>
           <Text numberOfLines={2} note>
-            {messages[0].text}
+            {messages.text}
           </Text>
           <Text></Text>
         </Body>
         <Right>
-          <Text note>{moment(messages[0].createdAt).fromNow()}</Text>
+          <Text note>{moment(messages.createdAt).fromNow()}</Text>
         </Right>
       </ListItem>
     );

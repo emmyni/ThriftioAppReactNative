@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import firebase from "firebase";
@@ -6,7 +6,8 @@ import uuid from "uuid-random";
 import moment from "moment";
 
 export default function ChatScreen({ route }) {
-  const { messages } = route.params;
+  const [messages, setMessages] = useState([]);
+
   const { chatId } = route.params;
   const currentUser = firebase.auth().currentUser;
   const currentUserDetails = {
@@ -16,6 +17,18 @@ export default function ChatScreen({ route }) {
       currentUser.photoURL ||
       "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
   };
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref("/messages/" + chatId + "/messages")
+      .orderByChild("createdAt")
+      .limitToLast(100)
+      .once("value")
+      .then((snapshot) => {
+        setMessages(snapshot.val().reverse());
+      });
+  }, []);
 
   const sendMessage = (newMessage) => {
     const giftedMessage = {
