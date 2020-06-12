@@ -19,6 +19,7 @@ import Chat from "../components/Chat";
 const MessagesScreen = ({ navigation }) => {
   const currentUser = firebase.auth().currentUser;
   const [chats, setChats] = useState([]);
+
   useEffect(() => {
     firebase
       .database()

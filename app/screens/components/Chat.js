@@ -28,39 +28,42 @@ export default function Chat({ navigation, chat }) {
       });
   }, []);
 
-  return (
-    <ListItem
-      avatar
-      button
-      onPress={() => {
-        navigation.navigate("ChatScreen");
-      }}
-    >
-      <Left>
-        <Thumbnail
-          source={{
-            uri:
-              otherUser.profile_picture ||
-              "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
-          }}
-        />
-      </Left>
-      {messages[0] && (
+  if (messages[0]) {
+    return (
+      <ListItem
+        avatar
+        button
+        onPress={() => {
+          navigation.navigate("ChatScreen", { messages: messages });
+        }}
+      >
+        <Left>
+          <Thumbnail
+            source={{
+              uri:
+                otherUser.profile_picture ||
+                "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
+            }}
+          />
+        </Left>
         <Body>
           <Text>
             {otherUser.first_name + " " + otherUser.last_name ||
               otherUser.email}
           </Text>
-          <Text note>{messages[0].text}</Text>
+          <Text numberOfLines={2} note>
+            {messages[0].text}
+          </Text>
+          <Text></Text>
         </Body>
-      )}
-      {messages[0] && (
         <Right>
           <Text note>{moment(messages[0].createdAt).fromNow()}</Text>
         </Right>
-      )}
-    </ListItem>
-  );
+      </ListItem>
+    );
+  } else {
+    return <ListItem></ListItem>;
+  }
 }
 
 const styles = StyleSheet.create({});
