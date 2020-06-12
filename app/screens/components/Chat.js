@@ -34,7 +34,10 @@ export default function Chat({ navigation, chat }) {
         avatar
         button
         onPress={() => {
-          navigation.navigate("ChatScreen", { messages: messages });
+          navigation.navigate("ChatScreen", {
+            messages: messages,
+            chatId: chatId,
+          });
         }}
       >
         <Left>

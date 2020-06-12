@@ -77,9 +77,7 @@ const ListingInfo = ({ navigation, route }) => {
       createdAt: moment().format(),
       user: {
         _id: currentUser.uid,
-        name:
-          currentUser.first_name + " " + currentUser.last_name ||
-          currentUser.email,
+        name: currentUser.displayName,
         avatar:
           itemUser.profile_picture ||
           "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
