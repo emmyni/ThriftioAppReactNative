@@ -52,11 +52,15 @@ const MyListingsScreen = ({ navigation, route }) => {
             ref
               .orderByKey()
               .equalTo(fav)
-              .once("value", (snapshot) => {
-                if (snapshot.val()) favItems[fav] = snapshot.val()[fav];
+              .once("value")
+              .then((snapshot) => {
+                if (snapshot.val()) {
+                  favItems[fav] = snapshot.val()[fav];
+                  if (Object.keys(favItems).length == favourites.length)
+                    setItems(favItems);
+                }
               });
           });
-          setItems(favItems);
         }
       });
   };
