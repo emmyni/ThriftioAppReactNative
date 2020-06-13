@@ -5,7 +5,7 @@ import firebase from "firebase";
 import moment from "moment";
 
 export default function Chat({ navigation, chat }) {
-  const chatId = chat.chatId;
+  const itemId = chat.itemId;
   const otherUserId = chat.userId;
   const [otherUser, setOtherUser] = useState({});
   const [messages, setMessages] = useState({});
@@ -21,14 +21,13 @@ export default function Chat({ navigation, chat }) {
 
     firebase
       .database()
-      .ref("/messages/" + chatId + "/messages")
+      .ref("/messages/" + itemId + "/messages")
       .orderByChild("createdAt")
       .limitToLast(1)
       .once("value")
       .then((snapshot) => {
         const data = snapshot.val();
         const message = data[Object.keys(data)[0]];
-        console.log(message);
         setMessages(message);
       });
   }, []);
@@ -40,7 +39,7 @@ export default function Chat({ navigation, chat }) {
         button
         onPress={() => {
           navigation.navigate("ChatScreen", {
-            chatId: chatId,
+            itemId: itemId,
           });
         }}
       >

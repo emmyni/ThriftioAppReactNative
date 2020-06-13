@@ -97,7 +97,6 @@ const ListingInfo = ({ navigation, route }) => {
   }, []);
 
   const sendMessage = () => {
-    let messageId = uuid();
     const giftedMessage = {
       _id: uuid(),
       text: message,
@@ -123,7 +122,7 @@ const ListingInfo = ({ navigation, route }) => {
       // create new message
       firebase
         .database()
-        .ref("/messages/" + messageId)
+        .ref("/messages/" + id)
         .set({
           users: [currentUser.uid, item.user_id],
           messages: [giftedMessage],
@@ -134,7 +133,7 @@ const ListingInfo = ({ navigation, route }) => {
         .database()
         .ref("/users/" + currentUser.uid)
         .update({
-          messages: [{ chatId: messageId, userId: item.user_id }],
+          messages: [{ itemId: id, userId: item.user_id }],
         });
     }
   };

@@ -8,7 +8,7 @@ import moment from "moment";
 export default function ChatScreen({ route }) {
   const [messages, setMessages] = useState([]);
 
-  const { chatId } = route.params;
+  const { itemId } = route.params;
   const currentUser = firebase.auth().currentUser;
   const currentUserDetails = {
     _id: currentUser.uid,
@@ -21,7 +21,7 @@ export default function ChatScreen({ route }) {
   useEffect(() => {
     firebase
       .database()
-      .ref("/messages/" + chatId + "/messages")
+      .ref("/messages/" + itemId + "/messages")
       .orderByChild("createdAt")
       .limitToLast(100)
       .once("value")
@@ -49,7 +49,7 @@ export default function ChatScreen({ route }) {
     // create new message
     firebase
       .database()
-      .ref("/messages/" + chatId)
+      .ref("/messages/" + itemId)
       .update({
         messages: [...messages, newMessage[0]],
       });
