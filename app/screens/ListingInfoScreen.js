@@ -37,7 +37,6 @@ const ListingInfo = ({ navigation, route }) => {
   const currentUser = firebase.auth().currentUser;
 
   const [existingMessages, setExistingMessages] = useState([]);
-  const [existingChatId, setExistingChatId] = useState("");
 
   useEffect(() => {
     // get listing user information
@@ -72,26 +71,13 @@ const ListingInfo = ({ navigation, route }) => {
       });
 
     // get existing messages
-
     firebase
       .database()
-      .ref("/users/" + currentUser.uid + "/messages")
-      .orderByChild("userId")
-      .equalTo(item.user_id)
+      .ref("/chats/" + id + "/messages")
       .once("value")
       .then((snapshot) => {
         if (snapshot.val()) {
-          const chatId = snapshot.val()[0].chatId;
-          setExistingChatId(chatId);
-          firebase
-            .database()
-            .ref("/messages/" + chatId + "/messages")
-            .once("value")
-            .then((snapshot) => {
-              if (snapshot.val()) {
-                setExistingMessages(snapshot.val());
-              }
-            });
+          setExistingMessages(snapshot.val());
         }
       });
   }, []);
@@ -109,12 +95,11 @@ const ListingInfo = ({ navigation, route }) => {
           "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
       },
     };
-
-    if (existingChatId) {
+    if (existingMessages.length > 0) {
       // create new message
       firebase
         .database()
-        .ref("/messages/" + existingChatId)
+        .ref("/chats/" + id)
         .update({
           messages: [...existingMessages, giftedMessage],
         });
@@ -122,7 +107,7 @@ const ListingInfo = ({ navigation, route }) => {
       // create new message
       firebase
         .database()
-        .ref("/messages/" + id)
+        .ref("/chats/" + id)
         .set({
           users: [currentUser.uid, item.user_id],
           messages: [giftedMessage],

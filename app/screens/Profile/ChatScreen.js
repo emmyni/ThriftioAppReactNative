@@ -21,11 +21,10 @@ export default function ChatScreen({ route }) {
   useEffect(() => {
     firebase
       .database()
-      .ref("/messages/" + itemId + "/messages")
+      .ref("/chats/" + itemId + "/messages")
       .orderByChild("createdAt")
       .limitToLast(100)
-      .once("value")
-      .then((snapshot) => {
+      .on("value", (snapshot) => {
         setMessages(snapshot.val().reverse());
       });
   }, []);
@@ -49,38 +48,11 @@ export default function ChatScreen({ route }) {
     // create new message
     firebase
       .database()
-      .ref("/messages/" + itemId)
+      .ref("/chats/" + itemId)
       .update({
         messages: [...messages, newMessage[0]],
       });
-
-    // this.setState(previousState => ({
-    //   messages: GiftedChat.append(previousState.messages, messages),
-    // }))
   };
-
-  // const [messages, setMessages] = useState([
-  //   {
-  //     _id: 1,
-  //     text: "Hello developer",
-  //     createdAt: new Date(),
-  //     user: {
-  //       _id: 1,
-  //       name: "React Native",
-  //       avatar: "https://placeimg.com/140/140/any",
-  //     },
-  //   },
-  //   {
-  //     _id: 2,
-  //     text: "Hello there",
-  //     createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
-  //     user: {
-  //       _id: 2,
-  //       name: "React Native",
-  //       avatar: "https://placeimg.com/140/140/any",
-  //     },
-  //   },
-  // ]);
 
   return (
     <View style={styles.container}>

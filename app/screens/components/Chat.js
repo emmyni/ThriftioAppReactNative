@@ -21,7 +21,7 @@ export default function Chat({ navigation, chat }) {
 
     firebase
       .database()
-      .ref("/messages/" + itemId + "/messages")
+      .ref("/chats/" + itemId + "/messages")
       .orderByChild("createdAt")
       .limitToLast(1)
       .once("value")
