@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, Dimensions } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Dimensions,
+  KeyboardAvoidingView,
+} from "react-native";
 import {
   View,
   Card,
@@ -14,6 +19,8 @@ import {
   Button,
   Form,
   Icon,
+  Toast,
+  Root,
 } from "native-base";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import PropTypes from "prop-types";
@@ -121,6 +128,14 @@ const ListingInfo = ({ navigation, route }) => {
           messages: [{ itemId: id, userId: item.user_id }],
         });
     }
+
+    Toast.show({
+      text: "Message Sent",
+      buttonText: "Okay",
+      position: "top",
+      duration: 3000,
+      style: styles.toast,
+    });
   };
   const favouriteListing = () => {
     if (isFavourite) {
@@ -147,80 +162,91 @@ const ListingInfo = ({ navigation, route }) => {
   const isSameUser = item.user_id === currentUser.uid;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.closeIcon}>
-        <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
-          <Icon active name="close-circle" />
-        </TouchableOpacity>
-      </View>
-      <ScrollView>
-        <Card transparent>
-          <CardItem cardBody>
-            <ScrollView horizontal={true}>
-              {images.map((image, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() =>
-                      navigation.navigate("ViewImageScreen", { image: image })
-                    }
-                  >
-                    <Image source={{ uri: image }} style={styles.image} />
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-          </CardItem>
+    <Root>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <View style={styles.container}>
+          <View style={styles.closeIcon}>
+            <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
+              <Icon active name="close-circle" />
+            </TouchableOpacity>
+          </View>
+          <ScrollView>
+            <Card transparent>
+              <CardItem cardBody>
+                <ScrollView horizontal={true}>
+                  {images.map((image, index) => {
+                    return (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() =>
+                          navigation.navigate("ViewImageScreen", {
+                            image: image,
+                          })
+                        }
+                      >
+                        <Image source={{ uri: image }} style={styles.image} />
+                      </TouchableOpacity>
+                    );
+                  })}
+                </ScrollView>
+              </CardItem>
 
-          <CardItem bordered>
-            <Body>
-              <Text>{item.item_name}</Text>
-              <Text style={styles.priceText}>${item.price}</Text>
-              <Text note>{item.desc}</Text>
-            </Body>
-            <Right>
-              <Icon
-                active
-                name={isFavourite ? "star" : "star-outline"}
-                style={styles.favouriteIcon}
-                onPress={() => favouriteListing()}
-              ></Icon>
-            </Right>
-          </CardItem>
-          <CardItem bordered>
-            <Left>
-              <Thumbnail
-                source={{
-                  uri:
-                    itemUser.profile_picture ||
-                    "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
-                }}
-              />
-              <Body>
-                <Text>{itemUser.first_name + " " + itemUser.last_name}</Text>
-                <Text note>
-                  {numItems + (numItems === 1 ? " listing" : " listings")}
-                </Text>
-              </Body>
-            </Left>
-          </CardItem>
-          {!isSameUser && (
-            <Form style={styles.form}>
-              <Item rounded style={styles.inputBox}>
-                <Input onChangeText={(text) => setMessage(text)}>
-                  <Text>{message}</Text>
-                </Input>
-              </Item>
+              <CardItem bordered>
+                <Body>
+                  <Text>{item.item_name}</Text>
+                  <Text style={styles.priceText}>${item.price}</Text>
+                  <Text note>{item.desc}</Text>
+                </Body>
+                <Right>
+                  <Icon
+                    active
+                    name={isFavourite ? "star" : "star-outline"}
+                    style={styles.favouriteIcon}
+                    onPress={() => favouriteListing()}
+                  ></Icon>
+                </Right>
+              </CardItem>
+              <CardItem bordered>
+                <Left>
+                  <Thumbnail
+                    source={{
+                      uri:
+                        itemUser.profile_picture ||
+                        "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
+                    }}
+                  />
+                  <Body>
+                    <Text>
+                      {itemUser.first_name + " " + itemUser.last_name}
+                    </Text>
+                    <Text note>
+                      {numItems + (numItems === 1 ? " listing" : " listings")}
+                    </Text>
+                  </Body>
+                </Left>
+              </CardItem>
+              {!isSameUser && (
+                <Form style={styles.form}>
+                  <Item rounded style={styles.inputBox}>
+                    <Input onChangeText={(text) => setMessage(text)}>
+                      <Text>{message}</Text>
+                    </Input>
+                  </Item>
 
-              <Button rounded block onPress={() => sendMessage()}>
-                <Text>Message Seller</Text>
-              </Button>
-            </Form>
-          )}
-        </Card>
-        <Maps />
-      </ScrollView>
-    </View>
+                  <Button rounded block onPress={() => sendMessage()}>
+                    <Text>Message Seller</Text>
+                  </Button>
+                </Form>
+              )}
+            </Card>
+            <Maps />
+          </ScrollView>
+        </View>
+      </KeyboardAvoidingView>
+    </Root>
   );
 };
 
@@ -261,5 +287,8 @@ const styles = StyleSheet.create({
   },
   priceText: {
     color: colors.primary,
+  },
+  toast: {
+    backgroundColor: colors.primary,
   },
 });
