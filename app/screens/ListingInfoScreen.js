@@ -36,6 +36,9 @@ const ListingInfo = ({ navigation, route }) => {
   const { id } = route.params;
   const currentUser = firebase.auth().currentUser;
 
+  const [existingMessages, setExistingMessages] = useState([]);
+  const [existingChatId, setExistingChatId] = useState("");
+
   useEffect(() => {
     // get listing user information
     firebase
@@ -67,10 +70,34 @@ const ListingInfo = ({ navigation, route }) => {
           if (snapshot.val().includes(id)) setIsFavourite(true);
         }
       });
+
+    // get existing messages
+
+    firebase
+      .database()
+      .ref("/users/" + currentUser.uid + "/messages")
+      .orderByChild("userId")
+      .equalTo(item.user_id)
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          const chatId = snapshot.val()[0].chatId;
+          setExistingChatId(chatId);
+          firebase
+            .database()
+            .ref("/messages/" + chatId + "/messages")
+            .once("value")
+            .then((snapshot) => {
+              if (snapshot.val()) {
+                setExistingMessages(snapshot.val());
+              }
+            });
+        }
+      });
   }, []);
 
   const sendMessage = () => {
-    const messageId = uuid();
+    let messageId = uuid();
     const giftedMessage = {
       _id: uuid(),
       text: message,
@@ -84,24 +111,32 @@ const ListingInfo = ({ navigation, route }) => {
       },
     };
 
-    // create new message
-    firebase
-      .database()
-      .ref("/messages/" + messageId)
-      .set({
-        users: [currentUser.uid, item.user_id],
-        messages: [giftedMessage],
-      });
+    if (existingChatId) {
+      // create new message
+      firebase
+        .database()
+        .ref("/messages/" + existingChatId)
+        .update({
+          messages: [...existingMessages, giftedMessage],
+        });
+    } else {
+      // create new message
+      firebase
+        .database()
+        .ref("/messages/" + messageId)
+        .set({
+          users: [currentUser.uid, item.user_id],
+          messages: [giftedMessage],
+        });
 
-    // add new chat to messages section of users database
-    firebase
-      .database()
-      .ref("/users/" + currentUser.uid)
-      .update({
-        messages: [{ chatId: messageId, userId: item.user_id }],
-      });
-
-    // TODO update
+      // add new chat to messages section of users database
+      firebase
+        .database()
+        .ref("/users/" + currentUser.uid)
+        .update({
+          messages: [{ chatId: messageId, userId: item.user_id }],
+        });
+    }
   };
   const favouriteListing = () => {
     if (isFavourite) {
