@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Header, Left, Button, Icon, Body, Title, Right } from "native-base";
+import { Header, Left, Button, Icon, Body, Text, Right } from "native-base";
 
 export default function HeaderComponent({ navigation, title }) {
   return (
@@ -11,7 +11,7 @@ export default function HeaderComponent({ navigation, title }) {
         </Button>
       </Left>
       <Body>
-        <Title>{title}</Title>
+        <Text style={{ fontWeight: "bold" }}>{title}</Text>
       </Body>
       <Right />
     </Header>

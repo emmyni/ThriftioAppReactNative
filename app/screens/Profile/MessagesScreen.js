@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, RefreshControl } from "react-native";
 import {
   Container,
-  Header,
   Content,
   List,
   Left,
@@ -15,6 +14,8 @@ import {
 import firebase from "firebase";
 
 import Chat from "../components/Chat";
+import Header from "../common/HeaderComponent";
+
 import colors from "../../config/colors";
 
 const MessagesScreen = ({ navigation }) => {
@@ -40,17 +41,7 @@ const MessagesScreen = ({ navigation }) => {
 
   return (
     <Container>
-      <Header>
-        <Left>
-          <Button transparent onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" />
-          </Button>
-        </Left>
-        <Body>
-          <Title>Messages</Title>
-        </Body>
-        <Right />
-      </Header>
+      <Header navigation={navigation} title="Messages" />
       <Content
         Content
         refreshControl={

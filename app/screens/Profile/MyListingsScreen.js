@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 import {
   Container,
   Content,
-  Header,
   Body,
   Left,
   Right,
@@ -14,6 +13,7 @@ import {
 import firebase from "firebase";
 
 import Listing from "../components/Listing";
+import Header from "../common/HeaderComponent";
 
 const MyListingsScreen = ({ navigation, route }) => {
   const [items, setItems] = useState({});
@@ -67,19 +67,10 @@ const MyListingsScreen = ({ navigation, route }) => {
 
   return (
     <Container>
-      <Header>
-        <Left>
-          <Button transparent onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" />
-          </Button>
-        </Left>
-        <Body>
-          <Text style={{ fontWeight: "bold" }}>
-            {mine ? "My Listings" : "Saved Listings"}
-          </Text>
-        </Body>
-        <Right />
-      </Header>
+      <Header
+        navigation={navigation}
+        title={mine ? "My Listings" : "Saved Listings"}
+      />
       <Content padder>
         {items &&
           Object.keys(items).map((key) => {
