@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, RefreshControl } from "react-native";
 import {
   Container,
   Header,
@@ -15,19 +15,28 @@ import {
 import firebase from "firebase";
 
 import Chat from "../components/Chat";
+import colors from "../../config/colors";
 
 const MessagesScreen = ({ navigation }) => {
   const currentUser = firebase.auth().currentUser;
   const [chats, setChats] = useState([]);
+  const [refreshing, setRefreshing] = useState(true);
 
   useEffect(() => {
+    onRefresh();
+  }, []);
+
+  const onRefresh = () => {
     firebase
       .database()
       .ref("/users/" + currentUser.uid + "/messages")
       .on("value", (snapshot) => {
-        if (snapshot.val()) setChats(snapshot.val());
+        if (snapshot.val()) {
+          setChats(snapshot.val());
+        }
       });
-  }, []);
+    setRefreshing(false);
+  };
 
   return (
     <Container>
@@ -42,7 +51,18 @@ const MessagesScreen = ({ navigation }) => {
         </Body>
         <Right />
       </Header>
-      <Content>
+      <Content
+        Content
+        refreshControl={
+          <RefreshControl
+            onRefresh={onRefresh.bind(this)}
+            refreshing={refreshing}
+            colors={[colors.primary]} //android
+            tintColor={colors.primary} //ios
+            progressBackgroundColor={colors.white}
+          />
+        }
+      >
         <List>
           {chats &&
             Object.keys(chats).map((key) => {

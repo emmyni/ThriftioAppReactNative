@@ -54,7 +54,7 @@ const FeedScreen = ({ navigation }) => {
             refreshing={refreshing}
             colors={[colors.primary]} //android
             tintColor={colors.primary} //ios
-            progressBackgroundColor={"#fff"}
+            progressBackgroundColor={colors.white}
           />
         }
       >

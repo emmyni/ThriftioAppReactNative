@@ -127,6 +127,13 @@ const ListingInfo = ({ navigation, route }) => {
         .update({
           messages: [{ itemId: id, userId: item.user_id }],
         });
+
+      firebase
+        .database()
+        .ref("/users/" + item.user_id)
+        .update({
+          messages: [{ itemId: id, userId: currentUser.uid }],
+        });
     }
 
     Toast.show({

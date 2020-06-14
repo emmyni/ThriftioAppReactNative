@@ -5,10 +5,13 @@ import firebase from "firebase";
 import uuid from "uuid-random";
 import moment from "moment";
 
-export default function ChatScreen({ route }) {
+import Header from "../common/HeaderComponent";
+
+export default function ChatScreen({ navigation, route }) {
   const [messages, setMessages] = useState([]);
 
   const { itemId } = route.params;
+  const { otherUser } = route.params;
   const currentUser = firebase.auth().currentUser;
   const currentUserDetails = {
     _id: currentUser.uid,
@@ -56,6 +59,12 @@ export default function ChatScreen({ route }) {
 
   return (
     <View style={styles.container}>
+      <Header
+        navigation={navigation}
+        title={
+          otherUser.first_name + " " + otherUser.last_name || otherUser.email
+        }
+      />
       <GiftedChat
         messages={messages}
         user={currentUserDetails}
