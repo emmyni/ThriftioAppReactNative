@@ -6,11 +6,13 @@ import uuid from "uuid-random";
 import moment from "moment";
 
 import Header from "../common/HeaderComponent";
+import colors from "../../config/colors";
 
 export default function ChatScreen({ navigation, route }) {
   const [messages, setMessages] = useState([]);
 
   const { itemId } = route.params;
+  const { itemName } = route.params;
   const { otherUser } = route.params;
   const currentUser = firebase.auth().currentUser;
   const currentUserDetails = {
@@ -64,6 +66,7 @@ export default function ChatScreen({ navigation, route }) {
         title={
           otherUser.first_name + " " + otherUser.last_name || otherUser.email
         }
+        subtitle={itemName}
       />
       <GiftedChat
         messages={messages}
@@ -77,5 +80,6 @@ export default function ChatScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.white,
   },
 });

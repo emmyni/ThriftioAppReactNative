@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, RefreshControl } from "react-native";
-import { Container, Content } from "native-base";
+import { StyleSheet, RefreshControl, View } from "react-native";
+import { Container, Content, Text } from "native-base";
 import SearchBar from "./SearchBar";
 import firebase from "firebase";
 
@@ -12,34 +12,58 @@ import NavigationMenu from "./common/NavigationMenu";
 
 const FeedScreen = ({ navigation }) => {
   const [items, setItems] = useState({});
+  const [properties, setProperties] = useState([]);
   const [refreshing, setRefreshing] = useState(true);
+  const [filter, setFilter] = useState(false);
+  const [filterCategory, setFilterCategory] = useState(0);
+  const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
-    firebase
-      .database()
-      .ref("items")
-      .orderByChild("item_name")
-      .once("value")
-      .then((snapshot) => {
-        if (snapshot.val()) {
-          setItems(snapshot.val());
-          setRefreshing(false);
-        }
-      });
+    onRefresh();
   }, []);
 
   const onRefresh = () => {
     firebase
       .database()
       .ref("items")
-      .orderByChild("item_name")
+      .orderByChild("created_at")
       .once("value")
       .then((snapshot) => {
         if (snapshot.val()) {
           setItems(snapshot.val());
+          setProperties(Object.keys(snapshot.val()).reverse());
+          setFilterCategory(0);
           setRefreshing(false);
+          setNoResult(false);
+        } else {
+          setNoResult(true);
         }
       });
+  };
+
+  const searchTag = (id) => {
+    if (!filter || filterCategory != id) {
+      firebase
+        .database()
+        .ref("items")
+        .orderByChild("category")
+        .equalTo(id)
+        .once("value")
+        .then((snapshot) => {
+          if (snapshot.val()) {
+            setProperties(Object.keys(snapshot.val()).reverse());
+            setNoResult(false);
+          } else {
+            setProperties([]);
+            setNoResult(true);
+          }
+          setFilterCategory(id);
+          setRefreshing(false);
+        });
+    } else {
+      onRefresh();
+    }
+    setFilter(!filter);
   };
 
   return (
@@ -58,9 +82,10 @@ const FeedScreen = ({ navigation }) => {
           />
         }
       >
-        <TagsList />
+        <TagsList searchTag={searchTag} />
         {items &&
-          Object.keys(items).map((key) => {
+          !noResult &&
+          properties.map((key) => {
             return (
               <Listing
                 key={key}
@@ -70,6 +95,11 @@ const FeedScreen = ({ navigation }) => {
               />
             );
           })}
+        {noResult && (
+          <View style={styles.noResult}>
+            <Text style={{ margin: 20 }}>No Results Found</Text>
+          </View>
+        )}
       </Content>
       <NavigationMenu navigation={navigation} />
     </Container>
@@ -78,4 +108,6 @@ const FeedScreen = ({ navigation }) => {
 
 export default FeedScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  noResult: {},
+});

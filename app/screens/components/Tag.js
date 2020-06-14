@@ -2,12 +2,15 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Thumbnail } from "native-base";
 import PropTypes from "prop-types";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const Tag = ({ name, image }) => {
+const Tag = ({ name, image, index, searchTag }) => {
   return (
     <View style={styles.container}>
-      <Thumbnail source={image} />
-      <Text style={styles.text}>{name}</Text>
+      <TouchableOpacity onPress={() => searchTag(index)}>
+        <Thumbnail source={image} />
+        <Text style={styles.text}>{name}</Text>
+      </TouchableOpacity>
     </View>
   );
 };

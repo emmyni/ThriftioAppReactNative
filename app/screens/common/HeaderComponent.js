@@ -1,8 +1,17 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Header, Left, Button, Icon, Body, Text, Right } from "native-base";
+import {
+  Header,
+  Left,
+  Button,
+  Icon,
+  Body,
+  Text,
+  Right,
+  Subtitle,
+} from "native-base";
 
-export default function HeaderComponent({ navigation, title }) {
+export default function HeaderComponent({ navigation, title, subtitle }) {
   return (
     <Header>
       <Left>
@@ -11,7 +20,10 @@ export default function HeaderComponent({ navigation, title }) {
         </Button>
       </Left>
       <Body>
-        <Text style={{ fontWeight: "bold" }}>{title}</Text>
+        <Text numberOfLines={1} style={{ fontWeight: "bold" }}>
+          {title}
+        </Text>
+        {subtitle && <Subtitle>{subtitle}</Subtitle>}
       </Body>
       <Right />
     </Header>

@@ -125,14 +125,18 @@ const ListingInfo = ({ navigation, route }) => {
         .database()
         .ref("/users/" + currentUser.uid)
         .update({
-          messages: [{ itemId: id, userId: item.user_id }],
+          messages: [
+            { itemId: id, itemName: item.item_name, userId: item.user_id },
+          ],
         });
 
       firebase
         .database()
         .ref("/users/" + item.user_id)
         .update({
-          messages: [{ itemId: id, userId: currentUser.uid }],
+          messages: [
+            { itemId: id, itemName: item.item_name, userId: currentUser.uid },
+          ],
         });
     }
 

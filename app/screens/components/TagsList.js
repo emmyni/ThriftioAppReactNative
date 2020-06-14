@@ -5,11 +5,19 @@ import Tag from "./Tag";
 import appDetails from "../../config/appDetails";
 import { ScrollView } from "react-native-gesture-handler";
 
-const TagsList = () => {
+const TagsList = ({ searchTag }) => {
   return (
     <ScrollView horizontal={true}>
       {appDetails.category.map((tag) => {
-        return <Tag name={tag.name} image={tag.image} key={tag.index} />;
+        return (
+          <Tag
+            name={tag.name}
+            image={tag.image}
+            index={tag.index}
+            searchTag={searchTag}
+            key={tag.index}
+          />
+        );
       })}
     </ScrollView>
   );

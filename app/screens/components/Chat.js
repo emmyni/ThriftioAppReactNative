@@ -6,6 +6,7 @@ import moment from "moment";
 
 export default function Chat({ navigation, chat }) {
   const itemId = chat.itemId;
+  const itemName = chat.itemName;
   const otherUserId = chat.userId;
   const [otherUser, setOtherUser] = useState({});
   const [messages, setMessages] = useState({});
@@ -40,6 +41,7 @@ export default function Chat({ navigation, chat }) {
         onPress={() => {
           navigation.navigate("ChatScreen", {
             itemId: itemId,
+            itemName: itemName,
             otherUser: otherUser,
           });
         }}
@@ -54,9 +56,11 @@ export default function Chat({ navigation, chat }) {
           />
         </Left>
         <Body>
-          <Text>
-            {otherUser.first_name + " " + otherUser.last_name ||
-              otherUser.email}
+          <Text numberOfLines={2}>
+            {(otherUser.first_name + " " + otherUser.last_name ||
+              otherUser.email) +
+              " - " +
+              itemName}
           </Text>
           <Text numberOfLines={2} note>
             {messages.text}
