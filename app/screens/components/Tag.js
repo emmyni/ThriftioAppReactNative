@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const Tag = ({ name, image }) => {
   return (
     <View style={styles.container}>
-      <Thumbnail source={require("../../assets/logo-red.png")} />
+      <Thumbnail source={image} />
       <Text style={styles.text}>{name}</Text>
     </View>
   );
@@ -16,7 +16,7 @@ export default Tag;
 
 Tag.propTypes = {
   name: PropTypes.string,
-  image: PropTypes.string,
+  image: PropTypes.number,
 };
 
 const styles = StyleSheet.create({
