@@ -6,14 +6,21 @@ import uuid from "uuid-random";
 import moment from "moment";
 
 import Header from "../common/HeaderComponent";
+import MessageListingInfo from "../components/MessageListingInfo";
 import colors from "../../config/colors";
 
 export default function ChatScreen({ navigation, route }) {
   const [messages, setMessages] = useState([]);
+  const [item, setItem] = useState({});
+  const [images, setImages] = useState([]);
 
-  const { itemId } = route.params;
-  const { itemName } = route.params;
+  const { chat } = route.params;
+  console.log(chat);
+  const itemId = chat.itemId;
+  const itemName = chat.itemName;
+  const owner = chat.owner;
   const { otherUser } = route.params;
+
   const currentUser = firebase.auth().currentUser;
   const currentUserDetails = {
     _id: currentUser.uid,
@@ -31,6 +38,35 @@ export default function ChatScreen({ navigation, route }) {
       .limitToLast(100)
       .on("value", (snapshot) => {
         setMessages(snapshot.val().reverse());
+      });
+    firebase
+      .database()
+      .ref("/items/" + itemId)
+      .once("value")
+      .then((snapshot) => {
+        setItem(snapshot.val());
+      });
+
+    // Create a reference under which you want to list
+    let listRef = firebase
+      .storage()
+      .ref()
+      .child(owner + "/" + itemId);
+
+    // Find all the prefixes and items.
+    listRef
+      .listAll()
+      .then((res) => {
+        const result = [];
+        res.items.forEach((itemRef) => {
+          itemRef.getDownloadURL().then((url) => {
+            result.push(url);
+            setImages(result);
+          });
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }, []);
 
@@ -67,6 +103,12 @@ export default function ChatScreen({ navigation, route }) {
           otherUser.first_name + " " + otherUser.last_name || otherUser.email
         }
         subtitle={itemName}
+      />
+      <MessageListingInfo
+        id={itemId}
+        item={item}
+        images={images}
+        navigation={navigation}
       />
       <GiftedChat
         messages={messages}

@@ -43,6 +43,7 @@ export default function Chat({ navigation, chat }) {
             itemId: itemId,
             itemName: itemName,
             otherUser: otherUser,
+            chat: chat,
           });
         }}
       >

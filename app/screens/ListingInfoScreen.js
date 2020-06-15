@@ -126,7 +126,12 @@ const ListingInfo = ({ navigation, route }) => {
         .ref("/users/" + currentUser.uid)
         .update({
           messages: [
-            { itemId: id, itemName: item.item_name, userId: item.user_id },
+            {
+              itemId: id,
+              itemName: item.item_name,
+              userId: item.user_id,
+              owner: item.user_id,
+            },
           ],
         });
 
@@ -135,7 +140,12 @@ const ListingInfo = ({ navigation, route }) => {
         .ref("/users/" + item.user_id)
         .update({
           messages: [
-            { itemId: id, itemName: item.item_name, userId: currentUser.uid },
+            {
+              itemId: id,
+              itemName: item.item_name,
+              userId: currentUser.uid,
+              owner: item.user_id,
+            },
           ],
         });
     }
@@ -180,7 +190,7 @@ const ListingInfo = ({ navigation, route }) => {
       >
         <View style={styles.container}>
           <View style={styles.closeIcon}>
-            <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Icon active name="close-circle" />
             </TouchableOpacity>
           </View>
