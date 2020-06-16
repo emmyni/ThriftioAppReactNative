@@ -15,7 +15,6 @@ export default function ChatScreen({ navigation, route }) {
   const [images, setImages] = useState([]);
 
   const { chat } = route.params;
-  console.log(chat);
   const itemId = chat.itemId;
   const itemName = chat.itemName;
   const owner = chat.owner;
@@ -37,6 +36,7 @@ export default function ChatScreen({ navigation, route }) {
       .orderByChild("createdAt")
       .limitToLast(100)
       .on("value", (snapshot) => {
+        console.log(snapshot.val());
         setMessages(snapshot.val().reverse());
       });
     firebase
@@ -86,6 +86,8 @@ export default function ChatScreen({ navigation, route }) {
       },
     };
 
+    newMessage[0].createdAt = new Date().getTime();
+
     // create new message
     firebase
       .database()
@@ -108,6 +110,7 @@ export default function ChatScreen({ navigation, route }) {
         id={itemId}
         item={item}
         images={images}
+        isMine={currentUser.uid === owner ? true : false}
         navigation={navigation}
       />
       <GiftedChat

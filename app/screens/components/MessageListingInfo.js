@@ -13,7 +13,13 @@ import {
 } from "native-base";
 import colors from "../../config/colors";
 
-export default function MessageListingInfo({ id, item, images, navigation }) {
+export default function MessageListingInfo({
+  id,
+  item,
+  images,
+  isMine,
+  navigation,
+}) {
   return (
     <Card>
       <CardItem>
@@ -38,14 +44,14 @@ export default function MessageListingInfo({ id, item, images, navigation }) {
               })
             }
           >
-            <Icon active name="thumbs-up" />
+            <Icon active name="chatbubbles" />
             <Text>View Listing</Text>
           </Button>
         </Left>
         <Right>
           <Button style={styles.button}>
-            <Icon active name="chatbubbles" />
-            <Text>Rate Seller</Text>
+            <Icon active name="thumbs-up" />
+            <Text>{isMine ? "Mark Sold" : "Rate Seller"}</Text>
           </Button>
         </Right>
       </CardItem>

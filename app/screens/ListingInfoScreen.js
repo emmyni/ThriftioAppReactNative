@@ -81,7 +81,7 @@ const ListingInfo = ({ navigation, route }) => {
     firebase
       .database()
       .ref("/chats/" + id + "/messages")
-      .once("value")
+      .on("value")
       .then((snapshot) => {
         if (snapshot.val()) {
           setExistingMessages(snapshot.val());
@@ -93,7 +93,7 @@ const ListingInfo = ({ navigation, route }) => {
     const giftedMessage = {
       _id: uuid(),
       text: message,
-      createdAt: moment().format(),
+      createdAt: new Date().getTime(),
       user: {
         _id: currentUser.uid,
         name: currentUser.displayName,

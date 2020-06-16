@@ -40,8 +40,6 @@ export default function Chat({ navigation, chat }) {
         button
         onPress={() => {
           navigation.navigate("ChatScreen", {
-            itemId: itemId,
-            itemName: itemName,
             otherUser: otherUser,
             chat: chat,
           });

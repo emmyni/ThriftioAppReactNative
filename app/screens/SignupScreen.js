@@ -78,7 +78,7 @@ const SignupScreen = ({ navigation }) => {
             <View style={styles.loginButton}>
               <Button
                 transparent
-                onPress={() => navigation.navigate("SignupScreen")}
+                onPress={() => navigation.navigate("LoginScreen")}
               >
                 <Text>Already have an account? Login</Text>
               </Button>
