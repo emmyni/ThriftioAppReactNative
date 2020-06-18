@@ -36,7 +36,6 @@ export default function ChatScreen({ navigation, route }) {
       .orderByChild("createdAt")
       .limitToLast(100)
       .on("value", (snapshot) => {
-        console.log(snapshot.val());
         setMessages(snapshot.val().reverse());
       });
     firebase

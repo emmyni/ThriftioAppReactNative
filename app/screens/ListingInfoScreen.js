@@ -81,7 +81,7 @@ const ListingInfo = ({ navigation, route }) => {
     firebase
       .database()
       .ref("/chats/" + id + "/messages")
-      .on("value")
+      .once("value")
       .then((snapshot) => {
         if (snapshot.val()) {
           setExistingMessages(snapshot.val());
@@ -222,12 +222,14 @@ const ListingInfo = ({ navigation, route }) => {
                   <Text note>{item.desc}</Text>
                 </Body>
                 <Right>
-                  <Icon
-                    active
-                    name={isFavourite ? "star" : "star-outline"}
-                    style={styles.favouriteIcon}
-                    onPress={() => favouriteListing()}
-                  ></Icon>
+                  {!isSameUser && (
+                    <Icon
+                      active
+                      name={isFavourite ? "star" : "star-outline"}
+                      style={styles.favouriteIcon}
+                      onPress={() => favouriteListing()}
+                    />
+                  )}
                 </Right>
               </CardItem>
               <CardItem bordered>

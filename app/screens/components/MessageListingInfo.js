@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Alert, View } from "react-native";
 import {
   Card,
   CardItem,
@@ -11,6 +11,8 @@ import {
   Body,
   Right,
 } from "native-base";
+import firebase from "firebase";
+
 import colors from "../../config/colors";
 
 export default function MessageListingInfo({
@@ -20,6 +22,37 @@ export default function MessageListingInfo({
   isMine,
   navigation,
 }) {
+  const [sold, setSold] = useState(false);
+
+  useEffect(() => {
+    setSold(item.sold);
+  });
+
+  const markSold = () => {
+    Alert.alert(
+      "Confirm",
+      `Are you sure you want to mark ${item.item_name} as sold?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            firebase
+              .database()
+              .ref("/items/" + id)
+              .update({
+                sold: sold,
+              });
+            setSold(true);
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
   return (
     <Card>
       <CardItem>
@@ -32,8 +65,8 @@ export default function MessageListingInfo({
         </Left>
       </CardItem>
       <CardItem cardBody></CardItem>
-      <CardItem>
-        <Left>
+      <CardItem style={styles.buttonContainer}>
+        <View>
           <Button
             style={styles.button}
             onPress={() =>
@@ -47,13 +80,18 @@ export default function MessageListingInfo({
             <Icon active name="chatbubbles" />
             <Text>View Listing</Text>
           </Button>
-        </Left>
-        <Right>
-          <Button style={styles.button}>
+        </View>
+        <View>
+          <Button
+            style={sold ? styles.buttonPressed : styles.button}
+            onPress={() => markSold()}
+          >
             <Icon active name="thumbs-up" />
-            <Text>{isMine ? "Mark Sold" : "Rate Seller"}</Text>
+            <Text>
+              {isMine ? (sold ? "Sold" : "Mark Sold") : "Rate Seller"}
+            </Text>
           </Button>
-        </Right>
+        </View>
       </CardItem>
     </Card>
   );
@@ -62,5 +100,11 @@ export default function MessageListingInfo({
 const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.primary,
+  },
+  buttonContainer: {
+    justifyContent: "space-around",
+  },
+  buttonPressed: {
+    backgroundColor: colors.secondary,
   },
 });

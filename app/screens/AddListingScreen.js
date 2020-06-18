@@ -100,6 +100,7 @@ const AddListing = ({ navigation }) => {
       desc: desc,
       location: location,
       user_id: firebase.auth().currentUser.uid,
+      sold: 0,
       created_at: moment().format(),
     };
 
