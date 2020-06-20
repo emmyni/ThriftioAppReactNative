@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import {
   Image,
   StyleSheet,
   Dimensions,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import {
   View,
@@ -37,6 +38,7 @@ const ListingInfo = ({ navigation, route }) => {
   const [itemUser, setItemUser] = useState({});
   const [numItems, setNumItems] = useState(1);
   const [isFavourite, setIsFavourite] = useState(false);
+  const [sold, setSold] = useState(false);
   const [favouriteListings, setFavouriteListings] = useState([]);
   const { images } = route.params;
   const { item } = route.params;
@@ -180,6 +182,32 @@ const ListingInfo = ({ navigation, route }) => {
     setIsFavourite(!isFavourite);
   };
 
+  const markSold = () => {
+    Alert.alert(
+      "Confirm",
+      `Are you sure you want to mark ${item.item_name} as sold?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            firebase
+              .database()
+              .ref("/items/" + id)
+              .update({
+                sold: sold,
+              });
+            setSold(true);
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   const isSameUser = item.user_id === currentUser.uid;
 
   return (
@@ -232,40 +260,53 @@ const ListingInfo = ({ navigation, route }) => {
                   )}
                 </Right>
               </CardItem>
-              <CardItem bordered>
-                <Left>
-                  <Thumbnail
-                    source={{
-                      uri:
-                        itemUser.profile_picture ||
-                        "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
-                    }}
-                  />
-                  <Body>
-                    <Text>
-                      {itemUser.first_name + " " + itemUser.last_name}
-                    </Text>
-                    <Text note>
-                      {numItems + (numItems === 1 ? " listing" : " listings")}
-                    </Text>
-                  </Body>
-                </Left>
-              </CardItem>
               {!isSameUser && (
-                <Form style={styles.form}>
-                  <Item rounded style={styles.inputBox}>
-                    <Input onChangeText={(text) => setMessage(text)}>
-                      <Text>{message}</Text>
-                    </Input>
-                  </Item>
+                <Fragment>
+                  <CardItem bordered>
+                    <Left>
+                      <Thumbnail
+                        source={{
+                          uri:
+                            itemUser.profile_picture ||
+                            "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
+                        }}
+                      />
+                      <Body>
+                        <Text>
+                          {itemUser.first_name + " " + itemUser.last_name}
+                        </Text>
+                        <Text note>
+                          {numItems +
+                            (numItems === 1 ? " listing" : " listings")}
+                        </Text>
+                      </Body>
+                    </Left>
+                  </CardItem>
+                  <Form style={styles.form}>
+                    <Item rounded style={styles.inputBox}>
+                      <Input onChangeText={(text) => setMessage(text)}>
+                        <Text>{message}</Text>
+                      </Input>
+                    </Item>
 
-                  <Button rounded block onPress={() => sendMessage()}>
-                    <Text>Message Seller</Text>
-                  </Button>
-                </Form>
+                    <Button rounded block onPress={() => sendMessage()}>
+                      <Text>Message Seller</Text>
+                    </Button>
+                  </Form>
+                </Fragment>
               )}
             </Card>
-            <Maps />
+            {!isSameUser && <Maps />}
+            {isSameUser && (
+              <Fragment>
+                <Button rounded block onPress={() => markSold()}>
+                  <Text>Edit</Text>
+                </Button>
+                <Button rounded block onPress={() => markSold()}>
+                  <Text>Mark as Sold</Text>
+                </Button>
+              </Fragment>
+            )}
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
