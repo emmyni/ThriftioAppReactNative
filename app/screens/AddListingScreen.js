@@ -32,7 +32,7 @@ import appDetails from "../config/appDetails";
 
 import SpinnerScreen from "./SpinnerScreen";
 
-const AddListing = ({ navigation, isEdit, route }) => {
+const AddListing = ({ navigation, route }) => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
@@ -40,10 +40,18 @@ const AddListing = ({ navigation, isEdit, route }) => {
   const [location, setLocation] = useState("");
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     getPermissionAsync();
-    if (isEdit) {
+    if (route.params) {
+      setIsEdit(true);
+      const editItem = route.params.editItem;
+      setItem(editItem.item_name);
+      setPrice(editItem.price);
+      setDesc(editItem.desc);
+      setCategory(editItem.category);
+      setLocation(editItem.location);
     }
   }, []);
 
@@ -163,18 +171,30 @@ const AddListing = ({ navigation, isEdit, route }) => {
           </View>
           <View>
             <Form>
-              <Item floatingLabel>
+              <Item
+                floatingL
+                floatingLabel={!isEdit}
+                stackedLabel={isEdit}
+                required={true}
+                abel
+              >
                 <Icon active name="archive" style={styles.icon} />
                 <Label>Item</Label>
-                <Input onChangeText={(text) => setItem(text)} />
+                <Input onChangeText={(text) => setItem(text)}>{item}</Input>
               </Item>
-              <Item floatingLabel>
+              <Item
+                floatingLabel={!isEdit}
+                stackedLabel={isEdit}
+                required={true}
+              >
                 <Icon active name="logo-usd" style={styles.icon} />
                 <Label>Price</Label>
                 <Input
                   onChangeText={(text) => setPrice(text.replace(/[^0-9]/g, ""))}
                   keyboardType="numeric"
-                />
+                >
+                  {price}
+                </Input>
               </Item>
               <Item style={{ marginTop: 20 }}>
                 <Icon active name="archive" style={styles.icon} />
@@ -199,18 +219,28 @@ const AddListing = ({ navigation, isEdit, route }) => {
                   })}
                 </Picker>
               </Item>
-              <Item floatingLabel>
+              <Item
+                floatingLabel={!isEdit}
+                stackedLabel={isEdit}
+                required={true}
+              >
                 <Icon active name="information-circle" style={styles.icon} />
                 <Label>Description</Label>
-                <Input
-                  multiline={true}
-                  onChangeText={(text) => setDesc(text)}
-                />
+                <Input multiline={true} onChangeText={(text) => setDesc(text)}>
+                  {desc}
+                </Input>
               </Item>
-              <Item floatingLabel last>
+              <Item
+                floatingLabel={!isEdit}
+                stackedLabel={isEdit}
+                required={true}
+                last
+              >
                 <Icon active name="map" style={styles.icon} />
                 <Label>Location</Label>
-                <Input onChangeText={(text) => setLocation(text)} />
+                <Input onChangeText={(text) => setLocation(text)}>
+                  {location}
+                </Input>
               </Item>
             </Form>
             <View style={styles.submitContainer}>

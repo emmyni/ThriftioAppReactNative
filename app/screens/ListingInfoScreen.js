@@ -305,7 +305,12 @@ const ListingInfo = ({ navigation, route }) => {
                 <Button
                   rounded
                   block
-                  onPress={() => navigation.navigate("AddListingScreen")}
+                  onPress={() =>
+                    navigation.navigate("AddListingScreen", {
+                      isEdit: true,
+                      editItem: item,
+                    })
+                  }
                   style={styles.buttonEdit}
                 >
                   <Text>Edit</Text>
