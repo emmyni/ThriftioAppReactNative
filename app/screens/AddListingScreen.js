@@ -21,9 +21,6 @@ import {
   Card,
   CardItem,
   Picker,
-  Left,
-  Body,
-  Right,
 } from "native-base";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import firebase from "firebase";
@@ -35,7 +32,7 @@ import appDetails from "../config/appDetails";
 
 import SpinnerScreen from "./SpinnerScreen";
 
-const AddListing = ({ navigation }) => {
+const AddListing = ({ navigation, isEdit, route }) => {
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
@@ -46,6 +43,8 @@ const AddListing = ({ navigation }) => {
 
   useEffect(() => {
     getPermissionAsync();
+    if (isEdit) {
+    }
   }, []);
 
   const getPermissionAsync = async () => {

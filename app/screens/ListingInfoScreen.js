@@ -89,6 +89,9 @@ const ListingInfo = ({ navigation, route }) => {
           setExistingMessages(snapshot.val());
         }
       });
+
+    //update sold status
+    setSold(item.sold);
   }, []);
 
   const sendMessage = () => {
@@ -298,14 +301,24 @@ const ListingInfo = ({ navigation, route }) => {
             </Card>
             {!isSameUser && <Maps />}
             {isSameUser && (
-              <Fragment>
-                <Button rounded block onPress={() => markSold()}>
+              <View style={{ justifyContent: "center" }}>
+                <Button
+                  rounded
+                  block
+                  onPress={() => navigation.navigate("AddListingScreen")}
+                  style={styles.buttonEdit}
+                >
                   <Text>Edit</Text>
                 </Button>
-                <Button rounded block onPress={() => markSold()}>
-                  <Text>Mark as Sold</Text>
+                <Button
+                  rounded
+                  block
+                  onPress={() => markSold()}
+                  style={styles.buttonSold}
+                >
+                  <Text>{sold ? "Sold" : "Mark as Sold"}</Text>
                 </Button>
-              </Fragment>
+              </View>
             )}
           </ScrollView>
         </View>
@@ -323,6 +336,13 @@ export default ListingInfo;
 
 const { height, width } = Dimensions.get("screen");
 const styles = StyleSheet.create({
+  buttonEdit: {
+    backgroundColor: colors.primary,
+    marginVertical: 15,
+  },
+  buttonSold: {
+    backgroundColor: colors.secondary,
+  },
   closeIcon: {
     position: "absolute",
     top: 20,
