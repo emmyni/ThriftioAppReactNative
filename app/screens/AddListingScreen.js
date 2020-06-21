@@ -52,6 +52,7 @@ const AddListing = ({ navigation, route }) => {
       setDesc(editItem.desc);
       setCategory(editItem.category);
       setLocation(editItem.location);
+      setImages(route.params.images);
     }
   }, []);
 
@@ -94,7 +95,7 @@ const AddListing = ({ navigation, route }) => {
   const createPost = async () => {
     setLoading(true);
 
-    const id = uuid();
+    const id = isEdit ? route.params.id : uuid();
 
     images.map((image, index) => {
       uploadImage(image, index, id);
@@ -110,11 +111,17 @@ const AddListing = ({ navigation, route }) => {
       sold: 0,
       created_at: moment().format(),
     };
-
-    await firebase
-      .database()
-      .ref("/items/" + id)
-      .set(addItem);
+    if (isEdit) {
+      await firebase
+        .database()
+        .ref("/items/" + id)
+        .update(addItem);
+    } else {
+      await firebase
+        .database()
+        .ref("/items/" + id)
+        .set(addItem);
+    }
 
     setLoading(false);
     navigation.navigate("ListingInfoScreen", { images: images, item: addItem });

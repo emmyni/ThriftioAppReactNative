@@ -308,7 +308,9 @@ const ListingInfo = ({ navigation, route }) => {
                   onPress={() =>
                     navigation.navigate("AddListingScreen", {
                       isEdit: true,
+                      id: id,
                       editItem: item,
+                      images: images,
                     })
                   }
                   style={styles.buttonEdit}
