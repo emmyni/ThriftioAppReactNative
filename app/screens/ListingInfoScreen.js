@@ -201,7 +201,7 @@ const ListingInfo = ({ navigation, route }) => {
               .database()
               .ref("/items/" + id)
               .update({
-                sold: sold,
+                sold: true,
               });
             setSold(true);
           },

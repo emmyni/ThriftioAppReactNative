@@ -26,7 +26,8 @@ const FeedScreen = ({ navigation }) => {
     firebase
       .database()
       .ref("items")
-      .orderByChild("created_at")
+      .orderByChild("sold")
+      .equalTo(0)
       .once("value")
       .then((snapshot) => {
         if (snapshot.val()) {
