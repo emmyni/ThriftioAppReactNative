@@ -322,7 +322,7 @@ const ListingInfo = ({ navigation, route }) => {
                   block
                   disabled={sold ? true : false}
                   onPress={() => markSold()}
-                  style={styles.buttonSold}
+                  style={sold ? styles.buttonSoldPressed : styles.buttonSold}
                 >
                   <Text>{sold ? "Sold" : "Mark as Sold"}</Text>
                 </Button>
@@ -350,6 +350,9 @@ const styles = StyleSheet.create({
   },
   buttonSold: {
     backgroundColor: colors.secondary,
+  },
+  buttonSoldPressed: {
+    backgroundColor: colors.secondaryFaded,
   },
   closeIcon: {
     position: "absolute",
