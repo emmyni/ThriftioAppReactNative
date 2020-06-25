@@ -201,9 +201,9 @@ const ListingInfo = ({ navigation, route }) => {
               .database()
               .ref("/items/" + id)
               .update({
-                sold: true,
+                sold: 1,
               });
-            setSold(true);
+            setSold(1);
           },
         },
       ],
@@ -320,6 +320,7 @@ const ListingInfo = ({ navigation, route }) => {
                 <Button
                   rounded
                   block
+                  disabled={sold ? true : false}
                   onPress={() => markSold()}
                   style={styles.buttonSold}
                 >

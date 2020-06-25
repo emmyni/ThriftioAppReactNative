@@ -31,6 +31,7 @@ import colors from "../config/colors";
 import appDetails from "../config/appDetails";
 
 import SpinnerScreen from "./SpinnerScreen";
+import Header from "./common/HeaderComponent";
 
 const AddListing = ({ navigation, route }) => {
   const [item, setItem] = useState("");
@@ -139,125 +140,114 @@ const AddListing = ({ navigation, route }) => {
 
   return (
     <Container>
-      <Content>
-        <View style={styles.container}>
-          <View>
-            <Card
-              transparent
-              style={{
-                flexDirection: "row",
-                justifyContent:
-                  images.length < 2 ? "flex-start" : "space-around",
-              }}
-            >
-              {images.length < 3 && (
-                <CardItem>
-                  <Button
-                    bordered
-                    onPress={_pickImage}
-                    style={styles.addButton}
-                  >
-                    <Icon active name="add" style={styles.addIcon} />
-                  </Button>
-                </CardItem>
-              )}
+      <Header
+        navigation={navigation}
+        title={isEdit ? "Edit Listing" : "Add Listing"}
+      />
+      <View style={styles.container}>
+        <View>
+          <Card
+            transparent
+            style={{
+              flexDirection: "row",
+              justifyContent: images.length < 2 ? "flex-start" : "space-around",
+            }}
+          >
+            {images.length < 3 && (
+              <CardItem>
+                <Button bordered onPress={_pickImage} style={styles.addButton}>
+                  <Icon active name="add" style={styles.addIcon} />
+                </Button>
+              </CardItem>
+            )}
 
-              {images.map((photo, index) => {
-                return (
-                  <CardItem key={index}>
-                    <View style={styles.closeIcon}>
-                      <TouchableOpacity onPress={() => deleteImage(photo)}>
-                        <Icon active name="close-circle" />
-                      </TouchableOpacity>
-                    </View>
-                    <Image source={{ uri: photo }} style={styles.image} />
-                  </CardItem>
-                );
-              })}
-            </Card>
-          </View>
-          <View>
-            <Form>
-              <Item
-                floatingL
-                floatingLabel={!isEdit}
-                stackedLabel={isEdit}
-                required={true}
-                abel
+            {images.map((photo, index) => {
+              return (
+                <CardItem key={index}>
+                  <View style={styles.closeIcon}>
+                    <TouchableOpacity onPress={() => deleteImage(photo)}>
+                      <Icon active name="close-circle" />
+                    </TouchableOpacity>
+                  </View>
+                  <Image source={{ uri: photo }} style={styles.image} />
+                </CardItem>
+              );
+            })}
+          </Card>
+        </View>
+        <View>
+          <Form>
+            <Item
+              floatingL
+              floatingLabel={!isEdit}
+              stackedLabel={isEdit}
+              required={true}
+              abel
+            >
+              <Icon active name="archive" style={styles.icon} />
+              <Label>Item</Label>
+              <Input onChangeText={(text) => setItem(text)}>{item}</Input>
+            </Item>
+            <Item floatingLabel={!isEdit} stackedLabel={isEdit} required={true}>
+              <Icon active name="logo-usd" style={styles.icon} />
+              <Label>Price</Label>
+              <Input
+                onChangeText={(text) => setPrice(text.replace(/[^0-9]/g, ""))}
+                keyboardType="numeric"
               >
-                <Icon active name="archive" style={styles.icon} />
-                <Label>Item</Label>
-                <Input onChangeText={(text) => setItem(text)}>{item}</Input>
-              </Item>
-              <Item
-                floatingLabel={!isEdit}
-                stackedLabel={isEdit}
-                required={true}
+                {price}
+              </Input>
+            </Item>
+            <Item style={{ marginTop: 20 }}>
+              <Icon active name="archive" style={styles.icon} />
+              <Picker
+                mode="dropdown"
+                iosIcon={<Icon name="arrow-down" />}
+                placeholder="Category"
+                placeholderStyle={{ color: colors.gray }}
+                placeholderIconColor={colors.primary}
+                style={{ width: undefined }}
+                selectedValue={category}
+                onValueChange={updateCategory.bind(this)}
               >
-                <Icon active name="logo-usd" style={styles.icon} />
-                <Label>Price</Label>
-                <Input
-                  onChangeText={(text) => setPrice(text.replace(/[^0-9]/g, ""))}
-                  keyboardType="numeric"
-                >
-                  {price}
-                </Input>
-              </Item>
-              <Item style={{ marginTop: 20 }}>
-                <Icon active name="archive" style={styles.icon} />
-                <Picker
-                  mode="dropdown"
-                  iosIcon={<Icon name="arrow-down" />}
-                  placeholder="Category"
-                  placeholderStyle={{ color: colors.gray }}
-                  placeholderIconColor={colors.primary}
-                  style={{ width: undefined }}
-                  selectedValue={category}
-                  onValueChange={updateCategory.bind(this)}
-                >
-                  {appDetails.category.map((category) => {
-                    return (
-                      <Picker.Item
-                        key={category.index}
-                        label={category.name}
-                        value={category.index}
-                      />
-                    );
-                  })}
-                </Picker>
-              </Item>
-              <Item
-                floatingLabel={!isEdit}
-                stackedLabel={isEdit}
-                required={true}
-              >
-                <Icon active name="information-circle" style={styles.icon} />
-                <Label>Description</Label>
-                <Input multiline={true} onChangeText={(text) => setDesc(text)}>
-                  {desc}
-                </Input>
-              </Item>
-              <Item
-                floatingLabel={!isEdit}
-                stackedLabel={isEdit}
-                required={true}
-                last
-              >
-                <Icon active name="map" style={styles.icon} />
-                <Label>Location</Label>
-                <Input onChangeText={(text) => setLocation(text)}>
-                  {location}
-                </Input>
-              </Item>
-            </Form>
-            <View style={styles.submitContainer}>
-              <Button block onPress={() => createPost()}>
-                <Text style={styles.submitText}>Submit</Text>
-              </Button>
-            </View>
+                {appDetails.category.map((category) => {
+                  return (
+                    <Picker.Item
+                      key={category.index}
+                      label={category.name}
+                      value={category.index}
+                    />
+                  );
+                })}
+              </Picker>
+            </Item>
+            <Item floatingLabel={!isEdit} stackedLabel={isEdit} required={true}>
+              <Icon active name="information-circle" style={styles.icon} />
+              <Label>Description</Label>
+              <Input multiline={true} onChangeText={(text) => setDesc(text)}>
+                {desc}
+              </Input>
+            </Item>
+            <Item
+              floatingLabel={!isEdit}
+              stackedLabel={isEdit}
+              required={true}
+              last
+            >
+              <Icon active name="map" style={styles.icon} />
+              <Label>Location</Label>
+              <Input onChangeText={(text) => setLocation(text)}>
+                {location}
+              </Input>
+            </Item>
+          </Form>
+          <View style={styles.submitContainer}>
+            <Button block onPress={() => createPost()}>
+              <Text style={styles.submitText}>Submit</Text>
+            </Button>
           </View>
         </View>
-      </Content>
+      </View>
     </Container>
   );
 };
