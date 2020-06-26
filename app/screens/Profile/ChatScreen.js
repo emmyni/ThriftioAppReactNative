@@ -36,7 +36,11 @@ export default function ChatScreen({ navigation, route }) {
       .orderByChild("createdAt")
       .limitToLast(100)
       .on("value", (snapshot) => {
-        setMessages(snapshot.val().reverse());
+        let ordered = [];
+        snapshot.forEach((mes) => {
+          ordered.push(mes.val());
+        });
+        setMessages(ordered.reverse());
       });
     firebase
       .database()
