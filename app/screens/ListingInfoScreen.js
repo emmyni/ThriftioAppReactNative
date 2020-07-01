@@ -220,9 +220,9 @@ const ListingInfo = ({ navigation, route }) => {
         style={styles.container}
       >
         <View style={styles.container}>
-          <View style={styles.closeIcon}>
+          <View style={styles.closeIconContainer}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon active name="close-circle" />
+              <Icon active name="close-circle" style={styles.closeIcon} />
             </TouchableOpacity>
           </View>
           <ScrollView>
@@ -355,6 +355,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondaryFaded,
   },
   closeIcon: {
+    color: colors.secondary,
+  },
+  closeIconContainer: {
     position: "absolute",
     top: 20,
     left: 20,
