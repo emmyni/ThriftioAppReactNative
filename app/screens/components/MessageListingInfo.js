@@ -14,6 +14,7 @@ import {
 import firebase from "firebase";
 
 import colors from "../../config/colors";
+import { color } from "react-native-reanimated";
 
 export default function MessageListingInfo({
   id,
@@ -22,10 +23,10 @@ export default function MessageListingInfo({
   isMine,
   navigation,
 }) {
-  const [sold, setSold] = useState(false);
-
+  const [sold, setSold] = useState(0);
+  const [marked, setMarked] = useState(false);
   useEffect(() => {
-    setSold(item.sold);
+    if (!marked) setSold(item.sold);
   });
 
   const markSold = () => {
@@ -44,9 +45,10 @@ export default function MessageListingInfo({
               .database()
               .ref("/items/" + id)
               .update({
-                sold: sold,
+                sold: 1,
               });
-            setSold(true);
+            setMarked(true);
+            setSold(1);
           },
         },
       ],
@@ -77,16 +79,17 @@ export default function MessageListingInfo({
               })
             }
           >
-            <Icon active name="chatbubbles" />
+            <Icon active name="information-circle" />
             <Text>View Listing</Text>
           </Button>
         </View>
         <View>
           <Button
-            style={sold ? styles.buttonPressed : styles.button}
+            style={sold ? styles.buttonSoldPressed : styles.buttonSold}
             onPress={() => markSold()}
+            disabled={sold ? true : false}
           >
-            <Icon active name="thumbs-up" />
+            <Icon active name="checkmark-circle" style={styles.icon} />
             <Text>
               {isMine ? (sold ? "Sold" : "Mark Sold") : "Rate Seller"}
             </Text>
@@ -104,7 +107,13 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: "space-around",
   },
-  buttonPressed: {
+  buttonSold: {
     backgroundColor: colors.secondary,
+  },
+  buttonSoldPressed: {
+    backgroundColor: colors.secondaryFaded,
+  },
+  icon: {
+    color: colors.white,
   },
 });
