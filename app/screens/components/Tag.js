@@ -8,7 +8,7 @@ const Tag = ({ name, image, index, searchTag }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => searchTag(index)}>
-        <Thumbnail source={image} />
+        <Thumbnail source={image} style={styles.thumbnail} />
         <Text style={styles.text}>{name}</Text>
       </TouchableOpacity>
     </View>
@@ -27,5 +27,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
   },
-  text: { paddingTop: 5 },
+  text: {
+    paddingTop: 5,
+    alignSelf: "center",
+  },
+  thumbnail: {
+    alignSelf: "center",
+  },
 });
