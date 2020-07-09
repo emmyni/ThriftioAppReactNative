@@ -23,10 +23,10 @@ export default function HeaderComponent({
         <Button
           transparent
           onPress={() => {
+            navigation.goBack();
             if (refresh) {
               refresh();
             }
-            navigation.goBack();
           }}
         >
           <Icon name="arrow-back" />

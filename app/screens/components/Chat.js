@@ -24,7 +24,6 @@ export default function Chat({ navigation, chat }) {
   }, []);
 
   const getMessage = () => {
-    console.log("hello");
     firebase
       .database()
       .ref("/chats/" + itemId + "/messages")

@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, RefreshControl } from "react-native";
-import {
-  Container,
-  Content,
-  List,
-  Left,
-  Body,
-  Right,
-  Icon,
-  Button,
-  Title,
-} from "native-base";
+import { Container, Content, List } from "native-base";
 import firebase from "firebase";
 
 import Chat from "../components/Chat";
