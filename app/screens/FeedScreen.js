@@ -93,6 +93,7 @@ const FeedScreen = ({ navigation }) => {
                 id={key}
                 item={items[key]}
                 navigation={navigation}
+                refresh={onRefresh}
               />
             );
           })}

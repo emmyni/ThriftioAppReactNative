@@ -43,6 +43,7 @@ const ListingInfo = ({ navigation, route }) => {
   const { images } = route.params;
   const { item } = route.params;
   const { id } = route.params;
+  const { refresh } = route.params;
   const currentUser = firebase.auth().currentUser;
 
   const [existingMessages, setExistingMessages] = useState([]);
@@ -221,7 +222,12 @@ const ListingInfo = ({ navigation, route }) => {
       >
         <View style={styles.container}>
           <View style={styles.closeIconContainer}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+                refresh();
+              }}
+            >
               <Icon active name="close-circle" style={styles.closeIcon} />
             </TouchableOpacity>
           </View>

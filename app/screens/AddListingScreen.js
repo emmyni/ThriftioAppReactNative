@@ -166,7 +166,11 @@ const AddListing = ({ navigation, route }) => {
                 <CardItem key={index}>
                   <View style={styles.closeIcon}>
                     <TouchableOpacity onPress={() => deleteImage(photo)}>
-                      <Icon active name="close-circle" />
+                      <Icon
+                        active
+                        name="close-circle"
+                        style={styles.closeButton}
+                      />
                     </TouchableOpacity>
                   </View>
                   <Image source={{ uri: photo }} style={styles.image} />
@@ -242,7 +246,11 @@ const AddListing = ({ navigation, route }) => {
             </Item>
           </Form>
           <View style={styles.submitContainer}>
-            <Button block onPress={() => createPost()}>
+            <Button
+              block
+              onPress={() => createPost()}
+              style={styles.submitButton}
+            >
               <Text style={styles.submitText}>Submit</Text>
             </Button>
           </View>
@@ -262,10 +270,14 @@ const styles = StyleSheet.create({
     height: 100,
     alignItems: "center",
     justifyContent: "center",
-    color: colors.primary,
+    borderColor: colors.secondary,
   },
   addIcon: {
     fontSize: 40,
+    color: colors.secondary,
+  },
+  closeButton: {
+    color: colors.secondary,
   },
   closeIcon: {
     position: "absolute",
@@ -285,6 +297,9 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
+  },
+  submitButton: {
+    backgroundColor: colors.secondary,
   },
   submitContainer: {
     paddingVertical: 30,

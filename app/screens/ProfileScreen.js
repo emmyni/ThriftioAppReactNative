@@ -14,6 +14,7 @@ import {
 import firebase from "firebase";
 
 import NavigationMenu from "./common/NavigationMenu";
+import colors from "../config/colors";
 
 const ProfileScreen = ({ navigation }) => {
   const [user, setUser] = useState({});
@@ -84,8 +85,12 @@ const ProfileScreen = ({ navigation }) => {
         </Card>
         <Card transparent>
           <CardItem style={{ justifyContent: "center" }}>
-            <Button bordered onPress={() => firebase.auth().signOut()}>
-              <Text>Sign out</Text>
+            <Button
+              bordered
+              onPress={() => firebase.auth().signOut()}
+              style={styles.signOut}
+            >
+              <Text style={styles.signOutText}>Sign out</Text>
             </Button>
           </CardItem>
         </Card>
@@ -106,5 +111,11 @@ const styles = StyleSheet.create({
   },
   profileText: {
     textAlign: "center",
+  },
+  signOut: {
+    borderColor: colors.secondary,
+  },
+  signOutText: {
+    color: colors.secondary,
   },
 });

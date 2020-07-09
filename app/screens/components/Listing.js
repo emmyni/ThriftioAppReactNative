@@ -17,7 +17,7 @@ import moment from "moment";
 
 import colors from "../../config/colors";
 
-const Listing = ({ navigation, item, id }) => {
+const Listing = ({ navigation, item, id, refresh }) => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -52,6 +52,7 @@ const Listing = ({ navigation, item, id }) => {
           images: images,
           item: item,
           id: id,
+          refresh: refresh,
         })
       }
     >
