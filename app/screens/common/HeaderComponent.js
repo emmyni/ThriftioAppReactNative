@@ -11,11 +11,24 @@ import {
   Subtitle,
 } from "native-base";
 
-export default function HeaderComponent({ navigation, title, subtitle }) {
+export default function HeaderComponent({
+  navigation,
+  title,
+  subtitle,
+  refresh,
+}) {
   return (
     <Header>
       <Left>
-        <Button transparent onPress={() => navigation.goBack()}>
+        <Button
+          transparent
+          onPress={() => {
+            if (refresh) {
+              refresh();
+            }
+            navigation.goBack();
+          }}
+        >
           <Icon name="arrow-back" />
         </Button>
       </Left>

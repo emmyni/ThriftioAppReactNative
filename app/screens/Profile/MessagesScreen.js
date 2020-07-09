@@ -78,12 +78,7 @@ const MessagesScreen = ({ navigation }) => {
             messages &&
             Object.keys(chats).map((key) => {
               return (
-                <Chat
-                  key={key}
-                  chat={chats[key]}
-                  navigation={navigation}
-                  message={messages[key]}
-                />
+                <Chat key={key} chat={chats[key]} navigation={navigation} />
               );
             })}
         </List>

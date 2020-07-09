@@ -17,9 +17,9 @@ import FeedScreen from "./app/screens/FeedScreen";
 import ListingInfoScreen from "./app/screens/ListingInfoScreen";
 import AddListingScreen from "./app/screens/AddListingScreen";
 import ProfileScreen from "./app/screens/ProfileScreen";
-import MyListingsScreen from "./app/screens/Profile/ListingsScreen";
+import MyListingsScreen from "./app/screens/Profile/MyListingsScreen";
 import MessagesScreen from "./app/screens/Profile/MessagesScreen";
-import SavedListingsScreen from "./app/screens/Profile/SavedListingsScreen";
+import ChatScreen from "./app/screens/Profile/ChatScreen";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -52,10 +52,7 @@ export default function App() {
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen name="MyListingsScreen" component={MyListingsScreen} />
         <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
-        <Stack.Screen
-          name="SavedListingsScreen"
-          component={SavedListingsScreen}
-        />
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

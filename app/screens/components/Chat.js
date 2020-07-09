@@ -4,11 +4,12 @@ import { ListItem, Left, Body, Right, Thumbnail, Text } from "native-base";
 import firebase from "firebase";
 import moment from "moment";
 
-export default function Chat({ navigation, chat, message }) {
+export default function Chat({ navigation, chat }) {
   const itemId = chat.itemId;
   const itemName = chat.itemName;
   const otherUserId = chat.userId;
   const [otherUser, setOtherUser] = useState({});
+  const [message, setMessage] = useState({});
 
   useEffect(() => {
     firebase
@@ -18,7 +19,24 @@ export default function Chat({ navigation, chat, message }) {
       .then((snapshot) => {
         setOtherUser(snapshot.val());
       });
+
+    getMessage();
   }, []);
+
+  const getMessage = () => {
+    console.log("hello");
+    firebase
+      .database()
+      .ref("/chats/" + itemId + "/messages")
+      .orderByChild("createdAt")
+      .limitToLast(1)
+      .once("value")
+      .then((snapshot) => {
+        const data = snapshot.val();
+        const message = data[Object.keys(data)[0]];
+        setMessage(message);
+      });
+  };
 
   if (message) {
     return (
@@ -29,6 +47,7 @@ export default function Chat({ navigation, chat, message }) {
           navigation.navigate("ChatScreen", {
             otherUser: otherUser,
             chat: chat,
+            refresh: getMessage,
           });
         }}
       >

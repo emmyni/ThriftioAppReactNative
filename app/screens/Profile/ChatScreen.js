@@ -19,6 +19,7 @@ export default function ChatScreen({ navigation, route }) {
   const itemName = chat.itemName;
   const owner = chat.owner;
   const { otherUser } = route.params;
+  const { refresh } = route.params;
 
   const currentUser = firebase.auth().currentUser;
   const currentUserDetails = {
@@ -108,6 +109,7 @@ export default function ChatScreen({ navigation, route }) {
           otherUser.first_name + " " + otherUser.last_name || otherUser.email
         }
         subtitle={itemName}
+        refresh={refresh}
       />
       <MessageListingInfo
         id={itemId}
