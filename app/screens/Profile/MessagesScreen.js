@@ -22,6 +22,7 @@ const MessagesScreen = ({ navigation }) => {
   const currentUser = firebase.auth().currentUser;
   const [chats, setChats] = useState([]);
   const [refreshing, setRefreshing] = useState(true);
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     onRefresh();
@@ -33,10 +34,28 @@ const MessagesScreen = ({ navigation }) => {
       .ref("/users/" + currentUser.uid + "/messages")
       .on("value", (snapshot) => {
         if (snapshot.val()) {
-          setChats(snapshot.val());
+          if (snapshot.val() != chats) {
+            setChats(snapshot.val());
+            setRefreshing(true);
+            setMessages([]);
+
+            snapshot.val().forEach((chat) => {
+              firebase
+                .database()
+                .ref("/chats/" + chat.itemId + "/messages")
+                .orderByChild("createdAt")
+                .limitToLast(1)
+                .once("value")
+                .then((snapshot) => {
+                  const data = snapshot.val();
+                  const message = data[Object.keys(data)[0]];
+                  setMessages([...messages, message]);
+                });
+            });
+          }
+          setRefreshing(false);
         }
       });
-    setRefreshing(false);
   };
 
   return (
@@ -56,9 +75,15 @@ const MessagesScreen = ({ navigation }) => {
       >
         <List>
           {chats &&
+            messages &&
             Object.keys(chats).map((key) => {
               return (
-                <Chat key={key} chat={chats[key]} navigation={navigation} />
+                <Chat
+                  key={key}
+                  chat={chats[key]}
+                  navigation={navigation}
+                  message={messages[key]}
+                />
               );
             })}
         </List>

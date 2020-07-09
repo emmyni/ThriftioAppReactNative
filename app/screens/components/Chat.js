@@ -4,12 +4,11 @@ import { ListItem, Left, Body, Right, Thumbnail, Text } from "native-base";
 import firebase from "firebase";
 import moment from "moment";
 
-export default function Chat({ navigation, chat }) {
+export default function Chat({ navigation, chat, message }) {
   const itemId = chat.itemId;
   const itemName = chat.itemName;
   const otherUserId = chat.userId;
   const [otherUser, setOtherUser] = useState({});
-  const [messages, setMessages] = useState({});
 
   useEffect(() => {
     firebase
@@ -19,21 +18,9 @@ export default function Chat({ navigation, chat }) {
       .then((snapshot) => {
         setOtherUser(snapshot.val());
       });
-
-    firebase
-      .database()
-      .ref("/chats/" + itemId + "/messages")
-      .orderByChild("createdAt")
-      .limitToLast(1)
-      .once("value")
-      .then((snapshot) => {
-        const data = snapshot.val();
-        const message = data[Object.keys(data)[0]];
-        setMessages(message);
-      });
   }, []);
 
-  if (messages) {
+  if (message) {
     return (
       <ListItem
         avatar
@@ -62,12 +49,12 @@ export default function Chat({ navigation, chat }) {
               itemName}
           </Text>
           <Text numberOfLines={2} note>
-            {messages.text}
+            {message.text}
           </Text>
           <Text></Text>
         </Body>
         <Right>
-          <Text note>{moment(messages.createdAt).fromNow()}</Text>
+          <Text note>{moment(message.createdAt).fromNow()}</Text>
         </Right>
       </ListItem>
     );
