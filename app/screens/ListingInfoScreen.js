@@ -225,7 +225,7 @@ const ListingInfo = ({ navigation, route }) => {
             <TouchableOpacity
               onPress={() => {
                 navigation.goBack();
-                refresh();
+                if (refresh) refresh();
               }}
             >
               <Icon active name="close-circle" style={styles.closeIcon} />
