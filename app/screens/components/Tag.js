@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Thumbnail } from "native-base";
 import PropTypes from "prop-types";
@@ -6,23 +6,26 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import colors from "../../config/colors";
 
 const Tag = ({ name, image, index, searchTag, filterCategory }) => {
-  console.log(filterCategory);
-  console.log(index);
+  const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
   return (
-    <View
-      style={styles.container}
-      onLayout={(event) => {
-        var { x, y, width, height } = event.nativeEvent.layout;
-      }}
-    >
+    <View>
       <TouchableOpacity
         onPress={() => searchTag(index)}
         style={
-          filterCategory == index ? { backgroundColor: colors.primary } : ""
+          filterCategory == index
+            ? { backgroundColor: colors.secondaryFaded, borderRadius: 20 }
+            : ""
         }
       >
         <Thumbnail source={image} style={styles.thumbnail} />
-        <Text style={styles.text}>{name}</Text>
+        <Text
+          style={
+            filterCategory == index ? [styles.text, styles.bold] : styles.text
+          }
+        >
+          {name}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -36,6 +39,9 @@ Tag.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  bold: {
+    fontWeight: "bold",
+  },
   container: {
     alignItems: "center",
     padding: 5,
