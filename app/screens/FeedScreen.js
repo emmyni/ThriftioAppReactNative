@@ -83,7 +83,7 @@ const FeedScreen = ({ navigation }) => {
           />
         }
       >
-        <TagsList searchTag={searchTag} />
+        <TagsList searchTag={searchTag} filterCategory={filterCategory} />
         {items &&
           !noResult &&
           properties.map((key) => {
