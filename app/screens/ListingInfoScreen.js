@@ -27,11 +27,12 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import PropTypes from "prop-types";
 import firebase from "firebase";
 import uuid from "uuid-random";
-import moment from "moment";
 
 import colors from "../config/colors";
 
 import Maps from "./common/Maps";
+
+import ViewUserModal from "./components/ViewUser";
 
 const ListingInfo = ({ navigation, route }) => {
   const [message, setMessage] = useState("Is this still available?");
@@ -40,6 +41,7 @@ const ListingInfo = ({ navigation, route }) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const [sold, setSold] = useState(false);
   const [favouriteListings, setFavouriteListings] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
   const { images } = route.params;
   const { item } = route.params;
   const { id } = route.params;
@@ -271,7 +273,18 @@ const ListingInfo = ({ navigation, route }) => {
               </CardItem>
               {!isSameUser && (
                 <Fragment>
-                  <CardItem bordered>
+                  <ViewUserModal
+                    setModalVisible={setModalVisible}
+                    modalVisible={modalVisible}
+                    itemUser={itemUser}
+                  />
+                  <CardItem
+                    bordered
+                    button
+                    onPress={() => {
+                      setModalVisible(true);
+                    }}
+                  >
                     <Left>
                       <Thumbnail
                         source={{
