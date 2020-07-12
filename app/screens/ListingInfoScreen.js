@@ -32,7 +32,7 @@ import colors from "../config/colors";
 
 import Maps from "./common/Maps";
 
-import ViewUserModal from "./components/ViewUser";
+import ViewUserModal from "./components/ViewUserModal";
 
 const ListingInfo = ({ navigation, route }) => {
   const [message, setMessage] = useState("Is this still available?");
