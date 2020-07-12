@@ -158,7 +158,7 @@ const LoginExternal = ({ navigation }) => {
 
   return (
     <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-      <Button block rounded onPress={() => signInWithGoogleAsync()}>
+      <Button block danger rounded onPress={() => signInWithGoogleAsync()}>
         <Icon active name="logo-googleplus" />
         <Text>Google</Text>
       </Button>

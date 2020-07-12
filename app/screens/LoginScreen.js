@@ -15,6 +15,7 @@ import firebase from "firebase";
 
 import BackgroundGradient from "./common/BackgroundGradient";
 import LoginExternal from "./LoginExternal";
+import colors from "../config/colors";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -68,8 +69,12 @@ const LoginScreen = ({ navigation }) => {
               </Item>
             </Form>
             <View style={styles.button}>
-              <Button block light onPress={() => loginUser()}>
-                <Text>Login</Text>
+              <Button
+                block
+                onPress={() => loginUser()}
+                style={styles.loginButton}
+              >
+                <Text style={styles.loginText}>Login</Text>
               </Button>
             </View>
           </View>
@@ -100,6 +105,13 @@ const styles = StyleSheet.create({
     height: height,
     width: width,
     justifyContent: "center",
+  },
+  loginButton: {
+    backgroundColor: colors.primary,
+  },
+  loginText: {
+    color: colors.white,
+    fontWeight: "bold",
   },
   logo: {
     width: 100,

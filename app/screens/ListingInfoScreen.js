@@ -298,7 +298,12 @@ const ListingInfo = ({ navigation, route }) => {
                       </Input>
                     </Item>
 
-                    <Button rounded block onPress={() => sendMessage()}>
+                    <Button
+                      rounded
+                      block
+                      onPress={() => sendMessage()}
+                      style={styles.messageButton}
+                    >
                       <Text>Message Seller</Text>
                     </Button>
                   </Form>
@@ -388,6 +393,9 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     marginBottom: 10,
+  },
+  messageButton: {
+    backgroundColor: colors.secondary,
   },
   priceText: {
     color: colors.primary,

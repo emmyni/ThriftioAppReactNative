@@ -13,6 +13,7 @@ import {
 import firebase from "firebase";
 
 import BackgroundGradient from "./common/BackgroundGradient";
+import colors from "../config/colors";
 
 const SignupScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -71,8 +72,12 @@ const SignupScreen = ({ navigation }) => {
               </Item>
             </Form>
             <View style={styles.button}>
-              <Button block light onPress={() => signupUser()}>
-                <Text>Sign Up</Text>
+              <Button
+                block
+                onPress={() => signupUser()}
+                style={styles.signupButton}
+              >
+                <Text style={styles.buttonText}>Sign Up</Text>
               </Button>
             </View>
             <View style={styles.loginButton}>
@@ -97,6 +102,10 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
     paddingHorizontal: 5,
   },
+  buttonText: {
+    color: colors.white,
+    fontWeight: "bold",
+  },
   container: {
     flex: 1,
     height: height,
@@ -113,6 +122,9 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignSelf: "center",
+  },
+  signupButton: {
+    backgroundColor: colors.primary,
   },
 });
 

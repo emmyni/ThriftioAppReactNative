@@ -6,10 +6,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import colors from "../../config/colors";
 
 const Tag = ({ name, image, index, searchTag, filterCategory }) => {
-  const [height, setHeight] = useState(0);
-  const [width, setWidth] = useState(0);
   return (
-    <View>
+    <View style={styles.container}>
       <TouchableOpacity
         onPress={() => searchTag(index)}
         style={
@@ -43,8 +41,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   container: {
-    alignItems: "center",
-    padding: 5,
+    marginHorizontal: 5,
+    marginBottom: 5,
   },
   text: {
     paddingTop: 5,
