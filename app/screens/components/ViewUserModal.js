@@ -1,6 +1,7 @@
 import React from "react";
 import { Alert, Modal, StyleSheet, TouchableOpacity } from "react-native";
 import { Thumbnail, Text, View, Icon } from "native-base";
+import { Col, Row, Grid } from "react-native-easy-grid";
 
 import colors from "../../config/colors";
 
@@ -25,24 +26,23 @@ const ViewUserModal = ({ modalVisible, setModalVisible, itemUser }) => {
               <Icon active name="close-circle" style={styles.closeIcon} />
             </TouchableOpacity>
           </View>
-          <Thumbnail
-            source={{
-              uri:
-                itemUser.profile_picture ||
-                "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
-            }}
-          />
-
-          <View>
-            {itemUser.first_name && itemUser.last_name && (
-              <Text style={styles.profileText}>
-                {itemUser.first_name + " " + itemUser.last_name}
-              </Text>
-            )}
-            <Text style={styles.profileText} note>
-              {itemUser.email}
-            </Text>
-          </View>
+          <Grid>
+            <Col style={{ width: "30%" }}>
+              <Thumbnail
+                source={{
+                  uri:
+                    itemUser.profile_picture ||
+                    "https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg",
+                }}
+              />
+            </Col>
+            <Col>
+              {itemUser.first_name && itemUser.last_name && (
+                <Text>{itemUser.first_name + " " + itemUser.last_name}</Text>
+              )}
+              <Text note>{itemUser.email}</Text>
+            </Col>
+          </Grid>
         </View>
       </View>
     </Modal>
