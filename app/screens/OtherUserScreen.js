@@ -13,11 +13,28 @@ import {
 } from "native-base";
 import firebase from "firebase";
 
+import Listing from "./components/Listing";
+
 import NavigationMenu from "./common/NavigationMenu";
 import colors from "../config/colors";
 
-const OtherUserScreen = ({ itemUser, numItems }) => {
-  console.log(itemUser);
+const OtherUserScreen = ({ navigation, route }) => {
+  const { itemUser, numItems, userId } = route.params;
+  const [items, setItems] = useState({});
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref("items")
+      .orderByChild("user_id")
+      .equalTo(userId)
+      .on("value", (snapshot) => {
+        if (snapshot.val()) setItems(snapshot.val());
+      });
+  });
+
+  console.log(items);
+
   return (
     <Container>
       <Content padder>
@@ -33,9 +50,9 @@ const OtherUserScreen = ({ itemUser, numItems }) => {
           </CardItem>
           <CardItem>
             <View>
-              {itemUser.displayName && (
+              {itemUser.first_name && itemUser.last_name && (
                 <Text style={styles.profileText}>
-                  {itemUser.first_name && itemUser.last_name}
+                  {itemUser.first_name + " " + itemUser.last_name}
                 </Text>
               )}
               <Text style={styles.profileText} note>
@@ -44,53 +61,17 @@ const OtherUserScreen = ({ itemUser, numItems }) => {
             </View>
           </CardItem>
         </Card>
-        <Card>
-          <CardItem
-            button
-            onPress={() =>
-              navigation.navigate("MyListingsScreen", { mine: true })
-            }
-          >
-            <Icon active name="list" />
-            <Text>My Listings</Text>
-            <Right>
-              <Icon name="arrow-forward" />
-            </Right>
-          </CardItem>
-          <CardItem
-            button
-            onPress={() => navigation.navigate("MessagesScreen")}
-          >
-            <Icon active name="chatboxes" />
-            <Text>My Messages</Text>
-            <Right>
-              <Icon name="arrow-forward" />
-            </Right>
-          </CardItem>
-          <CardItem
-            button
-            onPress={() =>
-              navigation.navigate("MyListingsScreen", { mine: false })
-            }
-          >
-            <Icon active name="bookmark" />
-            <Text>Saved Listings</Text>
-            <Right>
-              <Icon name="arrow-forward" />
-            </Right>
-          </CardItem>
-        </Card>
-        <Card transparent>
-          <CardItem style={{ justifyContent: "center" }}>
-            <Button
-              bordered
-              onPress={() => firebase.auth().signOut()}
-              style={styles.signOut}
-            >
-              <Text style={styles.signOutText}>Sign out</Text>
-            </Button>
-          </CardItem>
-        </Card>
+        {items &&
+          Object.keys(items).map((key) => {
+            return (
+              <Listing
+                key={key}
+                id={key}
+                item={items[key]}
+                navigation={navigation}
+              />
+            );
+          })}
       </Content>
       <NavigationMenu navigation={navigation} />
     </Container>

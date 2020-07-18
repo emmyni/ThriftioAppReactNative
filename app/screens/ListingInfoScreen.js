@@ -287,6 +287,7 @@ const ListingInfo = ({ navigation, route }) => {
                       navigation.navigate("OtherUserScreen", {
                         itemUser: itemUser,
                         numItems: numItems,
+                        userId: item.user_id,
                       })
                     }
                   >

@@ -45,6 +45,7 @@ const Listing = ({ navigation, item, id, refresh }) => {
       });
   }, []);
 
+  console.log("here");
   return (
     <TouchableOpacity
       onPress={() =>
