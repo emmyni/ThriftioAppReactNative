@@ -277,13 +277,18 @@ const ListingInfo = ({ navigation, route }) => {
                     setModalVisible={setModalVisible}
                     modalVisible={modalVisible}
                     itemUser={itemUser}
+                    numItems={numItems}
                   />
                   <CardItem
                     bordered
                     button
-                    onPress={() => {
-                      setModalVisible(true);
-                    }}
+                    onPress={() =>
+                      //setModalVisible(true);
+                      navigation.navigate("OtherUserScreen", {
+                        itemUser: itemUser,
+                        numItems: numItems,
+                      })
+                    }
                   >
                     <Left>
                       <Thumbnail
