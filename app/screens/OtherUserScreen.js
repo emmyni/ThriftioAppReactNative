@@ -14,6 +14,7 @@ import {
 import firebase from "firebase";
 
 import Listing from "./components/Listing";
+import Header from "./common/HeaderComponent";
 
 import NavigationMenu from "./common/NavigationMenu";
 import colors from "../config/colors";
@@ -31,12 +32,11 @@ const OtherUserScreen = ({ navigation, route }) => {
       .on("value", (snapshot) => {
         if (snapshot.val()) setItems(snapshot.val());
       });
-  });
-
-  console.log(items);
+  }, []);
 
   return (
     <Container>
+      <Header navigation={navigation} />
       <Content padder>
         <Card style={styles.card}>
           <CardItem>

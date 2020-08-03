@@ -139,8 +139,6 @@ const LoginExternal = ({ navigation }) => {
 
         const credential = firebase.auth.FacebookAuthProvider.credential(token);
 
-        console.log(credential);
-
         firebase
           .auth()
           .signInWithCredential(credential)
